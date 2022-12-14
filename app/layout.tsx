@@ -1,4 +1,4 @@
-import "./global.css";
+import './global.css'
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -6,7 +6,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <head />
       <body>{children}</body>
     </html>
-  );
-};
+  )
+}
 
-export default RootLayout;
+export default RootLayout

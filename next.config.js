@@ -7,15 +7,17 @@
 // https://github.com/shadowwalker/next-pwa/pull/427で治らないかな:eyes:
 // 一生マージされなさそうなのでとりあえず↓を使う
 // とりあえずよくわからないのを使う><
-const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: "public",
-  disable: process.env.NODE_ENV === "development",
-});
+import withPWA from '@ducanh2912/next-pwa'
 
-module.exports = withPWA({
+const withPWAConfig = withPWA.default({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+})
+
+module.exports = withPWAConfig({
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
     appDir: true,
   },
-});
+})

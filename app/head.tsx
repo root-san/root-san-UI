@@ -8,7 +8,7 @@ const Head = () => {
       <link rel="apple-touch-icon" href="/icon-192x192.png" />
       <link rel="icon" href="/favicon.ico" />
     </>
-  );
-};
+  )
+}
 
-export default Head;
+export default Head
