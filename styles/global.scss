@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "styles/common.scss";
+
+html,
+body {
+  height: 100%;
+  background-color: $color-background;
+  color: $color-text;
+}
