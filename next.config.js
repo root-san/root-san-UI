@@ -7,14 +7,13 @@
 // https://github.com/shadowwalker/next-pwa/pull/427で治らないかな:eyes:
 // 一生マージされなさそうなのでとりあえず↓を使う
 // とりあえずよくわからないのを使う><
-import withPWA from '@ducanh2912/next-pwa'
-
-const withPWAConfig = withPWA.default({
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',
   disable: process.env.NODE_ENV === 'development',
 })
 
-module.exports = withPWAConfig({
+module.exports = withPWA({
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
