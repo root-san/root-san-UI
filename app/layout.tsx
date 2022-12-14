@@ -1,3 +1,4 @@
+'use client'
 import 'styles/global.scss'
 import { Noto_Sans_JP } from '@next/font/google'
 
