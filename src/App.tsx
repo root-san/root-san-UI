@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import reactLogo from '/@/assets/react.svg'
+import '/@/styles/tailwind.scss'
 import '/@/styles/global.scss'
 import Button from '/@/components/Button'
 
