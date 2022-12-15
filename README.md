@@ -3,8 +3,9 @@
 ## 開発環境
 
 ```bash
+yarn
 yarn dev
 ```
 
-http://localhost:3000
+client: http://localhost:5173/
 mock: http://localhost:4010
