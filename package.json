@@ -13,19 +13,31 @@
     "gen-api": "openapi-generator-cli generate -g typescript-fetch -i https://raw.githubusercontent.com/root-san/root-san/main/docs/openapi.yaml -o ./src/libs/apis/generated/",
     "postinstall": "yarn gen-api",
     "start-mock": "prism mock -p 4010 -d https://raw.githubusercontent.com/root-san/root-san/main/docs/openapi.yaml",
-    "clean": "rimraf ./src/libs/apis/generated"
+    "clean": "rimraf ./src/libs/apis/generated",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.5",
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@stoplight/prism-cli": "^4.10.5",
+    "@storybook/addon-actions": "^6.5.14",
+    "@storybook/addon-essentials": "^6.5.14",
+    "@storybook/addon-interactions": "^6.5.14",
+    "@storybook/addon-links": "^6.5.14",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/builder-vite": "^0.2.5",
+    "@storybook/react": "^6.5.14",
+    "@storybook/testing-library": "^0.0.13",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "autoprefixer": "^10.4.13",
+    "babel-loader": "^8.3.0",
     "concurrently": "^7.6.0",
     "postcss": "^8.4.20",
     "rimraf": "^3.0.2",
