@@ -20,7 +20,7 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <Button
-          icon={<img src="src/assets/react.svg" />}
+          icon={<img src="src/assets/react.svg" alt="" />}
           title={`count is ${count}`}
           description="description"
           onClick={() => {
