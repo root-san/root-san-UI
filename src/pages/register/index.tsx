@@ -1,8 +1,11 @@
+import PageContainer from '/@/components/PageContainer'
+import Header from '/@/components/Header'
+
 const Register = () => {
   return (
-    <div>
-      <h1>Register</h1>
-    </div>
+    <PageContainer>
+      <Header title="タイトル" />
+    </PageContainer>
   )
 }
 
