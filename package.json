@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"yarn start-mock\"",
+    "vite": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "rome check .",
@@ -43,6 +44,7 @@
     "autoprefixer": "^10.4.13",
     "babel-loader": "^8.3.0",
     "concurrently": "^7.6.0",
+    "daisyui": "^2.45.0",
     "postcss": "^8.4.20",
     "rimraf": "^3.0.2",
     "rome": "^11.0.0",
