@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import { MdArrowBackIosNew, MdMoreVert } from 'react-icons/md'
+import { MdArrowBackIosNew, MdMoreVert, MdLink } from 'react-icons/md'
+import { QRCodeCanvas } from 'qrcode.react'
+
 import Header from '/@/components/Header'
 import PageContainer from '/@/components/PageContainer'
 import { useRoom } from '/@/hooks/useRoom'
@@ -9,6 +11,7 @@ import Expence from './Expence'
 import Calculate from './Calculate'
 import Menu from './Menu'
 import Modal from '/@/components/Modal'
+import { useCopyToClipboard } from '/@/hooks/useCopyToClipboard'
 
 const Group = () => {
   const { roomId } = useParams()
@@ -17,6 +20,8 @@ const Group = () => {
   const [dialog, setDialog] = useState<'Edit' | 'Invite' | 'Remove' | null>(
     null
   )
+  const [_, copy] = useCopyToClipboard()
+  const shareUrl = `${window.location.origin}/join/${roomId}`
 
   const handleMenuClose = () => {
     setIsShowMenu(false)
@@ -98,7 +103,16 @@ const Group = () => {
         onClose={onCloseModal}
         open={dialog === 'Invite'}
       >
-        <div>招待</div>
+        <div>
+          <QRCodeCanvas value={shareUrl} size={200} className="mx-auto my-14" />
+          <button
+            onClick={() => copy(shareUrl)}
+            className="flex gap-1.5 rounded-full border border-[rgba(rgba(0, 0, 0, 0.16))] px-3 py-1 items-center mx-auto mb-6"
+          >
+            <MdLink className="text-2xl" />
+            <p className="font-bold text-xs">リンクをコピー</p>
+          </button>
+        </div>
       </Modal>
       <Modal
         title="グループから抜けますか？"

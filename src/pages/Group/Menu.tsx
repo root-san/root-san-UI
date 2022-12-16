@@ -51,7 +51,7 @@ const Menu = ({ onClose, onClick }: Props) => {
         <p>編集</p>
       </button>
       <button
-        className="flex justify-start items-center gap-1"
+        className="flex justify-start items-center gap-1 text-red-500"
         onClick={(e) => {
           e.stopPropagation()
           onClick('Remove')
