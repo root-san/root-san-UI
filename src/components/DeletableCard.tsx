@@ -1,24 +1,29 @@
-import { useState } from 'react'
-
 import { useSwipeable } from 'react-swipeable'
 
 interface Props {
   children: React.ReactNode
+  open: boolean
+  onOpen: () => void
+  onClose: () => void
   onDelete: () => void
 }
 
-const DeletableCard = ({ children, onDelete }: Props) => {
-  const [showDeleteButton, setShowDeleteButton] = useState(false)
-
+const DeletableCard = ({
+  children,
+  open,
+  onOpen,
+  onClose,
+  onDelete,
+}: Props) => {
   const handlers = useSwipeable({
     onSwipedLeft: () => {
-      setShowDeleteButton(true)
+      onOpen()
     },
     onSwipedRight: () => {
-      setShowDeleteButton(false)
+      onClose()
     },
     onTap: () => {
-      setShowDeleteButton(false)
+      onClose()
     },
     trackMouse: true,
   })
@@ -32,7 +37,7 @@ const DeletableCard = ({ children, onDelete }: Props) => {
       </button>
       <div
         className={`relative w-full bg-white rounded-xl overflow-hidden transition-transform 
-          ${showDeleteButton ? '-translate-x-[72px]' : ''}`}
+          ${open ? '-translate-x-[72px]' : ''}`}
         {...handlers}
       >
         {children}
