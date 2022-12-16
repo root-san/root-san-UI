@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { MdArrowBackIos } from 'react-icons/md'
+import { v4 as uuidv4 } from 'uuid'
 
 import apis from '/@/libs/apis'
 
@@ -20,13 +21,12 @@ const CreateGroupDialog = ({ show, onClose }: Props) => {
 
   const submit = async () => {
     try {
-      const roomRes = await apis.createRoom({ room: { name: groupName } })
-      if (!roomRes.id) {
-        return
-      }
-      const _userRes = await apis.addMember({
-        roomId: roomRes.id,
-        member: { name: userName },
+      const roomId = uuidv4()
+      const userId = uuidv4()
+      await apis.createRoom({ room: { id: roomId, name: groupName } })
+      await apis.addMember({
+        roomId,
+        member: { id: userId, name: userName },
       })
       onClose()
     } catch (e) {
