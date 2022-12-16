@@ -42,9 +42,7 @@ const Modal = ({ children, open, title, onClose }: ModalProps) => {
             animate={{ y: 0 }}
           >
             <div className="grid grid-cols-[1fr_24px]">
-              {title !== undefined && (
-                <p className='text-center font-bold text-lg'>{title}</p>
-              )}
+              <p className='text-center font-bold text-lg'>{title ?? ''}</p>
               <button onClick={handleClose}>
                 <MdOutlineClose className='text-2xl' />
               </button>

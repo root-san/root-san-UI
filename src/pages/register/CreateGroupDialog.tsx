@@ -9,6 +9,7 @@ import people from '/@/assets/people.png'
 
 import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
+import { useRoomStore } from '/@/hooks/useRoomStore'
 
 interface Props {
   show: boolean
@@ -18,6 +19,7 @@ interface Props {
 const CreateGroupDialog = ({ show, onClose }: Props) => {
   const [groupName, setGroupName] = useState('')
   const [userName, setUserName] = useState('')
+  const { addRoom } = useRoomStore()
 
   const submit = async () => {
     try {
@@ -28,6 +30,7 @@ const CreateGroupDialog = ({ show, onClose }: Props) => {
         roomId,
         member: { id: userId, name: userName },
       })
+      addRoom({ roomId, myId: userId, myName: userName })
       onClose()
     } catch (e) {
       console.log(JSON.stringify(e))

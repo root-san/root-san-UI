@@ -13,7 +13,7 @@ import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
 import CardButton from '/@/components/CardButton'
 import Divider from '/@/components/Divider'
-import CreateGroupDialog from '/@/pages/register/CreateGroupDialog'
+import CreateGroupDialog from './CreateGroupDialog'
 
 const Register = () => {
   const [showGroupDialog, setShowGroupDialog] = useState(false)
