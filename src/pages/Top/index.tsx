@@ -3,6 +3,8 @@ import Header from '/@/components/Header'
 import PageContainer from '/@/components/PageContainer'
 import GroupList from './GroupList'
 import { useRoomStore } from '/@/hooks/useRoomStore'
+import { Link } from 'react-router-dom'
+import { MdAdd } from 'react-icons/md'
 
 const Top = () => {
   const { data: rooms } = useRoomStore()
@@ -10,7 +12,14 @@ const Top = () => {
 
   return (
     <PageContainer>
-      <Header title="ホーム" />
+      <Header
+        title="ホーム"
+        right={
+          <Link to="/register">
+            <MdAdd className='text-[32px]' />
+          </Link>
+        }
+      />
       <div className="p-5">
         <div className='flex font-semibold h-[42px] mb-5'>
           <button
