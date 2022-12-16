@@ -31,7 +31,7 @@ const DeletableCard = ({ children, onDelete }: Props) => {
         <p className='text-white font-bold ml-1'>削除</p>
       </button>
       <div
-        className={`relative w-full bg-white rounded-xl overflow-hidden p-6 transition-transform 
+        className={`relative w-full bg-white rounded-xl overflow-hidden transition-transform 
           ${showDeleteButton ? '-translate-x-[72px]' : ''}`}
         {...handlers}
       >
