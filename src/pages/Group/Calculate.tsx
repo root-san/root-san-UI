@@ -38,7 +38,11 @@ const Calculate = ({ room }: Props) => {
   return (
     <div className='space-y-6'>
       <CalculateSummary total={total} paid={paid} results={results} />
-      <TransfarList members={room.members} results={room.results} />
+      <TransfarList
+        members={room.members}
+        results={room.results}
+        roomId={room.id}
+      />
     </div>
   )
 }
