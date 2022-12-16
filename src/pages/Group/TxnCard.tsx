@@ -2,15 +2,14 @@ import { useState } from 'react'
 import DeletableCard from '/@/components/DeletableCard'
 import Modal from '/@/components/Modal'
 
-import { Txn } from '/@/libs/apis'
+import { Event } from '/@/libs/apis'
 
 interface Props {
-  txn: Txn
+  event: Event
   payer: string
-  isTransfer: boolean
 }
 
-const TxnCard = ({ txn, payer, isTransfer }: Props) => {
+const TxnCard = ({ event, payer }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
@@ -32,11 +31,11 @@ const TxnCard = ({ txn, payer, isTransfer }: Props) => {
       >
         <div className='w-full py-4 px-5'>
           <div className="flex font-bold text-base truncate">
-            <p>{txn.description}</p>
-            <p>¥{txn.amount}</p>
+            <p>{event.name}</p>
+            <p>¥{event.amount}</p>
           </div>
           <div className='flex text-gray-500 gap-x-2 text-xs'>
-            <p>{new Date(txn.paidAt).toLocaleDateString()}</p>
+            <p>{new Date(event.eventAt).toLocaleDateString()}</p>
             <p className='truncate'>{payer}</p>
           </div>
         </div>

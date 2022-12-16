@@ -8,8 +8,8 @@ interface Props {
 const TxnList = ({ room }: Props) => {
   return (
     <div className='flex flex-col gap-3'>
-      {room.txns.map((txn) => (
-        <TxnCard key={txn.id} txn={txn} payer="aaaa" isTransfer={true} />
+      {room.events.map((event) => (
+        <TxnCard key={event.id} event={event} payer="aaaa" />
       ))}
     </div>
   )

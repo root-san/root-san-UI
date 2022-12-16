@@ -46,7 +46,7 @@ const Group = () => {
             精算
           </button>
         </div>
-        {!isCalculate ? <Expence room={room} /> : <Calculate />}
+        {!isCalculate ? <Expence room={room} /> : <Calculate room={room} />}
       </div>
     </PageContainer>
   )
