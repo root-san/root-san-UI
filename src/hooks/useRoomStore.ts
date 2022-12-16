@@ -32,10 +32,15 @@ export const useRoomStore = () => {
     await mutate(newRooms, false)
   }
 
+  const deleteAllRoom = async () => {
+    await mutate([], false)
+  }
+
   return {
     addRoom,
     updateRoom,
     removeRoom,
+    deleteAllRoom,
     data,
   }
 }
