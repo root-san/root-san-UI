@@ -5,6 +5,7 @@ import Modal from '/@/components/Modal'
 import apis from '/@/libs/apis'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toDateTime } from '/@/libs/date'
 
 interface Props {
   roomId: string
@@ -57,7 +58,7 @@ const GroupCard = ({ roomId, myId, isPaid }: Props) => {
             <div className='flex text-gray-500 gap-x-2 text-xs'>
               <p>
                 {room.createdAt !== undefined
-                  ? new Date(room.createdAt).toLocaleDateString()
+                  ? toDateTime(new Date(room.createdAt))
                   : ''}
               </p>
               <p className='truncate'>{members}</p>
