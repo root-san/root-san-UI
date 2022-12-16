@@ -10,3 +10,5 @@ const conf = new Configuration({
 const apis = new DefaultApi(conf)
 
 export default apis
+
+export * from './generated'
