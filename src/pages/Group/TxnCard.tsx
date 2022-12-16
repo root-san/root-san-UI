@@ -33,7 +33,12 @@ const TxnCard = ({ event, payer, onDelete }: Props) => {
         onClose={() => setIsDeleteOpen(false)}
         onDelete={onConfirmDelete}
       >
-        <div className='w-full py-4 px-5'>
+        <div className='w-full py-4 px-5 relative'>
+          <div
+            className={`w-1 h-4 left-0 absolute ${
+              event.eventType === 'inner' ? 'bg-red-400' : 'bg-green-400'
+            }`}
+          />
           <div className="flex font-bold text-base truncate w-full justify-between gap-2">
             <p className="truncate">{event.name}</p>
             <p>¥{event.amount.toLocaleString('ja-JP')}</p>
