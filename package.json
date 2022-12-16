@@ -24,9 +24,9 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.4.5",
-    "uuid": "^9.0.0",
     "react-swipeable": "^7.0.0",
-    "swr": "^2.0.0"
+    "swr": "^2.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
@@ -47,7 +47,6 @@
     "autoprefixer": "^10.4.13",
     "babel-loader": "^8.3.0",
     "concurrently": "^7.6.0",
-    "daisyui": "^2.45.0",
     "postcss": "^8.4.20",
     "rimraf": "^3.0.2",
     "rome": "^11.0.0",
