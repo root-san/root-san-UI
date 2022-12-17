@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { MdArrowBackIosNew, MdRestartAlt, MdError } from 'react-icons/md'
+import { v4 as uuidv4 } from 'uuid'
 
 import { useRoom } from '/@/hooks/useRoom'
 import { useRoomStore } from '/@/hooks/useRoomStore'
+
+import apis from '/@/libs/apis'
 
 import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
@@ -13,6 +16,7 @@ import Select from '/@/components/Select'
 import Tag from '/@/components/Tag'
 
 const GroupPay = () => {
+  const navigate = useNavigate()
   const { roomId } = useParams()
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
@@ -26,7 +30,7 @@ const GroupPay = () => {
     return <div>Room ID is not found</div>
   }
 
-  const { room } = useRoom(roomId)
+  const { room, mutate } = useRoom(roomId)
   const { data } = useRoomStore()
   if (room === undefined) {
     return <div>Loading...</div>
@@ -63,11 +67,41 @@ const GroupPay = () => {
     )
   }
 
-  const submit = () => {
+  const submit = async () => {
     if (disabled) {
       return
     }
-    console.log('hoge')
+    try {
+      const eventId = uuidv4()
+      const txns = room.members.map((member) => {
+        const id = uuidv4()
+        return {
+          id,
+          amount: Number(memberAmount[member.id]),
+          receiver,
+          payer: member.id,
+        }
+      })
+      const res = await apis.addEvent({
+        roomId,
+        eventRequestBody: {
+          id: eventId,
+          name,
+          eventType: 'inner',
+          eventAt: new Date(eventAt),
+          amount: Number(amount),
+          txns,
+        },
+      })
+
+      const newRoom = { ...room }
+      newRoom.events.push(res)
+      await mutate(newRoom)
+
+      navigate(`/group/${roomId}`)
+    } catch (e) {
+      console.error(JSON.stringify(e))
+    }
   }
 
   return (
@@ -133,7 +167,7 @@ const GroupPay = () => {
                     type="number"
                     value={memberAmount[member.id]}
                     onChange={(e) => {
-                      const newVal = memberAmount
+                      const newVal = { ...memberAmount }
                       newVal[member.id] = e.target.value
                       setMemberAmount(newVal)
                     }}
