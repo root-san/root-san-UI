@@ -79,12 +79,11 @@ const GroupPay = () => {
       const txns = room.members
         .map((member) => {
           const id = uuidv4()
-          console.log(receiver)
           return {
             id,
             amount: Number(memberAmount[member.id]),
-            receiver,
-            payer: member.id,
+            payer: receiver,
+            receiver: member.id,
           }
         })
         .filter((txn) => txn.amount > 0)
