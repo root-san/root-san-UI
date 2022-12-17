@@ -168,7 +168,7 @@ const GroupPay = () => {
           </div>
           <div className="flex flex-col items-start w-full gap-4">
             <div className="flex flex-row w-full gap-4">
-              <div className="flex flex-row flex-1 gap-2">
+              <div className="flex flex-row flex-1 gap-2 items-center">
                 <div className="text-base font-bold">分配</div>
                 <Tag isOptional />
               </div>
@@ -177,7 +177,7 @@ const GroupPay = () => {
                 onClick={evenUp}
               >
                 <MdRestartAlt className="text-[24px]" />
-                <div className="text-base">均等にする</div>
+                <div className="text-base font-medium">均等にする</div>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
@@ -186,7 +186,9 @@ const GroupPay = () => {
                   className="flex flex-row items-center gap-4"
                   key={member.id}
                 >
-                  <div className="text-base flex-1">{member.name}</div>
+                  <div className="text-base flex-1 font-medium">
+                    {member.name}
+                  </div>
                   <div className="w-[120px]">
                     <Input
                       type="number"
