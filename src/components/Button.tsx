@@ -13,8 +13,8 @@ const Button = ({ text, onClick, disabled, white, warn, className }: Props) => {
       className={`
         rounded-lg block w-full text-base py-3 px-4 outline-none bg-primary text-secondary font-bold
         disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed
-        hover:bg-gray-900 transition duration-200 ease-in-out
-        active:bg-gray-900 ${white ? 'bg-white text-primary' : ''} ${
+        hover:bg-primary-hover transition duration-200 ease-in-out
+        active:bg-primary-hover ${white ? 'bg-white text-primary' : ''} ${
         warn ? 'bg-red-50 text-red-500' : ''
       } ${className ?? ''}
       `}

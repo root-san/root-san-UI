@@ -9,7 +9,8 @@ module.exports = {
         sans: ['Noto Sans JP', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        primary: '#2D3748', // gray 700
+        primary: '#428C95',
+        'primary-hover': '#337881',
         secondary: '#FFFFFF', // white
         text: '#171923', // gray 900
         'text-secondary': '#718096', // gray 500
