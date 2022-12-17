@@ -15,10 +15,10 @@ const AppRoutes = () => {
   const element = useRoutes([
     { path: '/', element: <Top /> },
     { path: '/register', element: <Register /> },
-    { path: '/register/once_pay', element: <RegisterOncePay /> },
+    { path: '/register/once-pay', element: <RegisterOncePay /> },
     { path: '/group/:roomId', element: <Group /> },
-    { path: '/group/:roomId/add_pay', element: <GroupPay /> },
-    { path: '/once_pay/:id', element: <OncePay /> },
+    { path: '/group/:roomId/add-pay', element: <GroupPay /> },
+    { path: '/once-pay/:id', element: <OncePay /> },
     { path: '/help', element: <Help /> },
     { path: '/join/:roomId', element: <Join /> },
   ])

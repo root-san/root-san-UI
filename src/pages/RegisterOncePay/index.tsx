@@ -39,7 +39,7 @@ const RegisterOncePay = () => {
       createdAt: new Date().toString(),
       txns,
     })
-    navigate(`/once_pay/${id}`)
+    navigate(`/once-pay/${id}`)
   }
 
   return (
