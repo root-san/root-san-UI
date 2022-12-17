@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import Top from '/@/pages/Top'
 import Register from '/@/pages/Register'
-import RegisterOnce from '/@/pages/RegisterOnce'
+import RegisterOncePay from '/@/pages/RegisterOncePay'
 import Group from '/@/pages/Group'
 import GroupPay from '/@/pages/GroupPay'
 import Help from '/@/pages/Help'
@@ -12,7 +12,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Top />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/register/once" element={<RegisterOnce />} />
+      <Route path="/register/once_pay" element={<RegisterOncePay />} />
       <Route path="/group/:roomId" element={<Group />} />
       <Route path="/group/:roomId/add_pay" element={<GroupPay />} />
       <Route path="/help" element={<Help />} />

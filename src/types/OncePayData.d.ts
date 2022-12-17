@@ -5,7 +5,7 @@ export interface OncePayTxn {
   isPaid: boolean
 }
 
-export interface OncePay {
+export interface OncePayData {
   id: string
   name: string
   amount: number

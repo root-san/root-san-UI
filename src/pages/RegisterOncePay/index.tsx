@@ -10,9 +10,9 @@ import Header from '/@/components/Header'
 import Input from '/@/components/Input'
 import Button from '/@/components/Button'
 import CountInput from './CountInput'
-import { OncePayTxn } from '/@/types/OncePay'
+import { OncePayTxn } from '/@/types/OncePayData'
 
-const RegisterOnce = () => {
+const RegisterOncePay = () => {
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
@@ -39,7 +39,7 @@ const RegisterOnce = () => {
       createdAt: new Date().toString(),
       txns,
     })
-    navigate(`/once/${id}`)
+    navigate(`/once_pay/${id}`)
   }
 
   return (
@@ -93,4 +93,4 @@ const RegisterOnce = () => {
   )
 }
 
-export default RegisterOnce
+export default RegisterOncePay
