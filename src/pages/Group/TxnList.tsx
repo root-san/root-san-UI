@@ -22,7 +22,25 @@ const TxnList = ({ room }: Props) => {
 
   return (
     <div className='flex flex-col gap-3'>
-      {room.events.map((event) => (
+      {
+        room.events.sort((a, b) => {
+          // eventAtの日付のみ(時間は無視)を第一条件、CreatedAtの時間を第二条件にして降順ソート
+          const aDate = new Date(a.eventAt.getFullYear(), a.eventAt.getMonth(), a.eventAt.getDate())
+          const bDate = new Date(b.eventAt.getFullYear(), b.eventAt.getMonth(), b.eventAt.getDate())
+          if (aDate.getTime() > bDate.getTime()) {
+            return -1
+          } else if (aDate.getTime() < bDate.getTime()) {
+            return 1
+          } else {
+            if (a.createdAt > b.createdAt) {
+              return -1
+            } else if (a.createdAt < b.createdAt) {
+              return 1
+            } else {
+              return 0
+            }
+          }
+        }).map((event) => (
         <TxnCard
           key={event.id}
           event={event}
