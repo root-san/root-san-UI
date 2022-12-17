@@ -3,6 +3,7 @@ import jsQR from 'jsqr'
 import { motion } from 'framer-motion'
 import PageContainer from '/@/components/PageContainer'
 import { MdArrowBackIosNew } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 const videoWidth: number = 720
 const videoHeight: number = 720
@@ -26,9 +27,10 @@ interface Props {
 
 const QRCodeReader = ({ onClose }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const intervalRef = useRef<number>()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [qrCodeData, setQrCodeData] = useState<string[]>([])
+  const navigate = useNavigate()
+  const origin = window.location.origin
 
   useEffect(() => {
     const openCamera = async () => {
@@ -44,7 +46,9 @@ const QRCodeReader = ({ onClose }: Props) => {
   useEffect(() => {
     const decodeQRCode = () => {
       const canvas = canvasRef?.current
-      const context = canvas?.getContext('2d')
+      const context = canvas?.getContext('2d', {
+        willReadFrequently: true,
+      })
       const video = videoRef?.current
 
       if (!(canvas && context && video)) {
@@ -71,19 +75,36 @@ const QRCodeReader = ({ onClose }: Props) => {
       return code?.data
     }
 
-    const intervalId = window.setInterval(() => {
+    let animationFrameId: number
+    const loop = () => {
+      animationFrameId = requestAnimationFrame(loop)
       const decodedValue = decodeQRCode()
 
       if (!decodedValue || qrCodeData.includes(decodedValue)) {
         return
       }
 
+      // URLの形式が正しければJOINページに遷移する
+      const url = new URL(decodedValue)
+      if (
+        url.origin === origin &&
+        url.pathname.match(
+          /^\/join\/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})$/
+        )
+      ) {
+        if (videoRef.current?.srcObject) {
+          const stream = videoRef.current.srcObject as MediaStream
+          stream.getVideoTracks().forEach((track) => track.stop())
+        }
+        navigate(url.pathname)
+        return
+      }
       setQrCodeData([...qrCodeData, decodedValue])
-    }, 1_000 / videoFrameRate)
-    intervalRef.current = intervalId
+    }
+    loop()
 
     return () => {
-      clearInterval(intervalRef.current)
+      cancelAnimationFrame(animationFrameId)
     }
   }, [qrCodeData])
 
