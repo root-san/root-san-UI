@@ -47,11 +47,31 @@ const Group = () => {
     setName(e.target.value)
   }
 
-  const handleChangeName = () => {
-    // TODO: update
+  const handleChangeName = async () => {
+    if (roomId === undefined) {
+      onCloseModal()
+      return
+    }
+    try {
+      await apis.editRoom({ roomId: roomId, roomRuquestBody: { name: name } })
+      await mutate()
+      onCloseModal()
+    } catch (e) {
+      console.error(e)
+    }
   }
-  const handleDeleteRoom = () => {
-    // TODO: delete
+  const handleDeleteRoom = async () => {
+    if (roomId === undefined) {
+      onCloseModal()
+      return
+    }
+    try {
+      await apis.deleteRoom({ roomId: roomId })
+      await removeRoom(roomId)
+      navigate('/')
+    } catch (e) {
+      console.error(e)
+    }
   }
   const handleRemoveMember = () => {
     if (roomId === undefined) {
@@ -77,7 +97,7 @@ const Group = () => {
     return <div>Room ID is not found</div>
   }
 
-  const { room } = useRoom(roomId)
+  const { room, mutate } = useRoom(roomId)
   if (room === undefined) {
     return <div>Loading...</div>
   }
