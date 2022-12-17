@@ -14,6 +14,8 @@ export const localStorageProvider = (): Map<any, any> => {
     }
     const appCache = JSON.stringify(Array.from(map.entries()))
     localStorage.setItem('app-cache', appCache)
+    localStorage.removeItem('direction')
+    localStorage.removeItem('path')
   })
 
   return map

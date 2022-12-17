@@ -12,7 +12,7 @@ export const useAnimateSetting = () => {
         // /register/once-pay
         return [2, 2]
       }
-      return [2, 1]
+      return [3, 1]
     }
     if (path.startsWith('/group')) {
       if (pathArray.length === 3) {
