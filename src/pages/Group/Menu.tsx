@@ -4,6 +4,7 @@ import {
   MdDriveFileRenameOutline,
   MdOutlineWavingHand,
 } from 'react-icons/md'
+import ModalPortal from '/@/components/ModalPortal'
 
 interface Props {
   onClose: () => void
@@ -26,41 +27,43 @@ const Menu = ({ onClose, onClick }: Props) => {
   }, [ref.current, onClose])
 
   return (
-    <div
-      className='w-[152px] absolute top-3 right-3 text-xs bg-white drop-shadow-md space-y-3 px-4 py-3 rounded-lg font-bold text-start'
-      ref={ref}
-    >
-      <button
-        className="flex justify-start items-center gap-1"
-        onClick={(e) => {
-          e.stopPropagation()
-          onClick('Invite')
-        }}
+    <ModalPortal>
+      <div
+        className='w-44 absolute top-3 right-3 text-sm bg-white drop-shadow-md space-y-3 px-4 py-3 rounded-lg font-bold text-start'
+        ref={ref}
       >
-        <MdQrCode />
-        <p>グループに招待</p>
-      </button>
-      <button
-        className="flex justify-start items-center gap-1"
-        onClick={(e) => {
-          e.stopPropagation()
-          onClick('Edit')
-        }}
-      >
-        <MdDriveFileRenameOutline />
-        <p>編集</p>
-      </button>
-      <button
-        className="flex justify-start items-center gap-1 text-red-500"
-        onClick={(e) => {
-          e.stopPropagation()
-          onClick('Remove')
-        }}
-      >
-        <MdOutlineWavingHand />
-        <p>グループを抜ける</p>
-      </button>
-    </div>
+        <button
+          className="flex justify-start items-center gap-2 h-6"
+          onClick={(e) => {
+            e.stopPropagation()
+            onClick('Invite')
+          }}
+        >
+          <MdQrCode className='text-2xl' />
+          <p>グループに招待</p>
+        </button>
+        <button
+          className="flex justify-start items-center gap-2 h-6"
+          onClick={(e) => {
+            e.stopPropagation()
+            onClick('Edit')
+          }}
+        >
+          <MdDriveFileRenameOutline className='text-2xl' />
+          <p>編集</p>
+        </button>
+        <button
+          className="flex justify-start items-center gap-2 text-red-500"
+          onClick={(e) => {
+            e.stopPropagation()
+            onClick('Remove')
+          }}
+        >
+          <MdOutlineWavingHand className='text-2xl' />
+          <p>グループを抜ける</p>
+        </button>
+      </div>
+    </ModalPortal>
   )
 }
 
