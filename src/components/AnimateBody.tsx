@@ -35,22 +35,22 @@ const dirToPos = (dir: Direction | null): { x: string; y: string }[] => {
     case 'Up':
       return [
         { x: '0%', y: '-100%' },
-        { x: '0%', y: '100%' },
+        { x: '0%', y: '80%' },
       ]
     case 'Down':
       return [
         { x: '0%', y: '100%' },
-        { x: '0%', y: '-100%' },
+        { x: '0%', y: '-80%' },
       ]
     case 'Right':
       return [
         { x: '100%', y: '0%' },
-        { x: '-100%', y: '0%' },
+        { x: '-60%', y: '0%' },
       ]
     case 'Left':
       return [
         { x: '-100%', y: '0%' },
-        { x: '100%', y: '0%' },
+        { x: '140%', y: '0%' },
       ]
     default:
       return [
