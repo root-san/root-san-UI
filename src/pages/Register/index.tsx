@@ -16,6 +16,7 @@ import CardButton from '/@/components/CardButton'
 import Divider from '/@/components/Divider'
 import CreateGroupDialog from './CreateGroupDialog'
 import QRCodeReader from './QRCodeScanner'
+import AnimateBody from '/@/components/AnimateBody'
 
 const Register = () => {
   const [showGroupDialog, setShowGroupDialog] = useState(false)
@@ -44,26 +45,21 @@ const Register = () => {
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <PageContainer>
-          <Header
-            title="新規作成"
-            left={
-              <Link to="/" className='text-2xl'>
-                <MdArrowBackIosNew />
-              </Link>
-            }
-            right={
-              <Link to="/help" className='text-[32px]'>
-                <MdHelpOutline />
-              </Link>
-            }
-          />
+      <PageContainer>
+        <Header
+          title="新規作成"
+          left={
+            <Link to="/" className='text-2xl'>
+              <MdArrowBackIosNew />
+            </Link>
+          }
+          right={
+            <Link to="/help" className='text-[32px]'>
+              <MdHelpOutline />
+            </Link>
+          }
+        />
+        <AnimateBody>
           <div className='flex flex-col items-center'>
             <motion.img
               src={people}
@@ -105,8 +101,8 @@ const Register = () => {
               </div>
             </div>
           </div>
-        </PageContainer>
-      </motion.div>
+        </AnimateBody>
+      </PageContainer>
 
       <AnimatePresence>
         {showGroupDialog && <CreateGroupDialog onClose={closeGroupDialog} />}
