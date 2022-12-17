@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
@@ -21,6 +22,7 @@ const CreateGroupDialog = ({ onClose }: Props) => {
   const [groupName, setGroupName] = useState('')
   const [userName, setUserName] = useState('')
   const { addRoom } = useRoomStore()
+  const navigate = useNavigate()
 
   const submit = async () => {
     try {
@@ -31,8 +33,8 @@ const CreateGroupDialog = ({ onClose }: Props) => {
         roomId,
         member: { id: userId, name: userName },
       })
-      addRoom({ roomId, myId: userId, myName: userName })
-      onClose()
+      await addRoom({ roomId, myId: userId, myName: userName })
+      navigate(`/group/${roomId}`)
     } catch (e) {
       console.log(JSON.stringify(e))
     }
