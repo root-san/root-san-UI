@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { MdArrowBackIosNew, MdRestartAlt } from 'react-icons/md'
 
 import { useRoom } from '/@/hooks/useRoom'
+import { useRoomStore } from '/@/hooks/useRoomStore'
 
 import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
@@ -29,9 +30,12 @@ const GroupPay = () => {
   }
 
   const { room } = useRoom(roomId)
+  const { data } = useRoomStore()
   if (room === undefined) {
     return <div>Loading...</div>
   }
+
+  const myId = data?.find((d) => room.id === d.roomId)?.myId
 
   const evenUp = () => {
     const remainder = Number(amount) % room.members.length
@@ -48,6 +52,10 @@ const GroupPay = () => {
       )
     )
   }
+
+  useEffect(() => {
+    setReceiver(myId ?? '')
+  }, [])
 
   return (
     <PageContainer>
@@ -127,12 +135,13 @@ const GroupPay = () => {
               <Input
                 type="number"
                 value={amount}
-                onChange={(e) => {}}
+                onChange={(_e) => {}}
                 disabled
               />
             </div>
           </div>
         </div>
+        <div className="h-[138px]" />
       </div>
       <div className="w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
         <Button text="登録する" onClick={submit} />
