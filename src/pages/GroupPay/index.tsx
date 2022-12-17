@@ -20,10 +20,7 @@ const GroupPay = () => {
   const [receiver, setReceiver] = useState('')
   /** id をキー, 支払額を値に持つ */
   const [memberAmount, setMemberAmount] = useState<Record<string, string>>({})
-
-  const submit = () => {
-    console.log('hoge')
-  }
+  const [disabled, setDisabled] = useState(true)
 
   if (!roomId) {
     return <div>Room ID is not found</div>
@@ -36,6 +33,19 @@ const GroupPay = () => {
   }
 
   const myId = data?.find((d) => room.id === d.roomId)?.myId
+  useEffect(() => {
+    setReceiver(myId ?? '')
+  }, [])
+
+  useEffect(() => {
+    if (amount === '' || Number(amount) < 0) {
+      setDisabled(true)
+    }
+
+    let total = 0
+    Object.values(memberAmount).map((val) => (total += Number(val)))
+    setDisabled(`${total}` !== amount)
+  }, [amount, memberAmount])
 
   const evenUp = () => {
     const remainder = Number(amount) % room.members.length
@@ -53,9 +63,12 @@ const GroupPay = () => {
     )
   }
 
-  useEffect(() => {
-    setReceiver(myId ?? '')
-  }, [])
+  const submit = () => {
+    if (disabled) {
+      return
+    }
+    console.log('hoge')
+  }
 
   return (
     <PageContainer>
@@ -143,8 +156,13 @@ const GroupPay = () => {
         </div>
         <div className="h-[138px]" />
       </div>
-      <div className="w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
-        <Button text="登録する" onClick={submit} />
+      <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
+        {disabled && (
+          <div className="text-xs font-bold text-warning">
+            金額と合計が一致しません
+          </div>
+        )}
+        <Button text="登録する" onClick={submit} disabled={disabled} />
       </div>
     </PageContainer>
   )
