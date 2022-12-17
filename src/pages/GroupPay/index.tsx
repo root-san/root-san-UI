@@ -175,7 +175,7 @@ const GroupPay = () => {
                   <Tag isOptional />
                 </div>
                 <div
-                  className="flex flex-row gap-1 text-selected"
+                  className="flex flex-row gap-1 text-primary"
                   onClick={evenUp}
                 >
                   <MdRestartAlt className="text-[24px]" />
