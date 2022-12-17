@@ -5,9 +5,10 @@ interface Props {
   type: 'text' | 'number'
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  className?: string
 }
 
-const Input = ({ title, type, value, onChange }: Props) => {
+const Input = ({ title, type, value, onChange, className }: Props) => {
   const id = useId()
   return (
     <div>
@@ -19,7 +20,9 @@ const Input = ({ title, type, value, onChange }: Props) => {
       <input
         id={id}
         type={type}
-        className="rounded-lg block w-full text-base py-3 px-4 outline-none"
+        className={`rounded-lg block w-full text-base py-3 px-4 outline-none ${
+          className ?? ''
+        }`}
         value={value}
         onChange={onChange}
       />

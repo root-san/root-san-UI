@@ -3,7 +3,7 @@ import apis, { RequiredError, RoomDetails } from '/@/libs/apis'
 
 export const useRoom = (roomId: string) => {
   const fetcher = ([_, roomId]: string[]) => apis.getRoom({ roomId })
-  const { data, error } = useSWR<RoomDetails, RequiredError>(
+  const { data, mutate, error } = useSWR<RoomDetails, RequiredError>(
     ['/rooms/', roomId],
     fetcher,
     {
@@ -13,6 +13,7 @@ export const useRoom = (roomId: string) => {
 
   return {
     room: data,
+    mutate,
     isLoading: !(error || data),
     isError: error,
   }
