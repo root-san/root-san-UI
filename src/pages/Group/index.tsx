@@ -30,6 +30,7 @@ const Group = () => {
   )
   const [_, copy] = useCopyToClipboard()
   const shareUrl = `${window.location.origin}/join/${roomId}`
+  const { room, mutate } = useRoom(roomId)
 
   const handleMenuClose = () => {
     setIsShowMenu(false)
@@ -97,7 +98,6 @@ const Group = () => {
     return <div>Room ID is not found</div>
   }
 
-  const { room, mutate } = useRoom(roomId)
   if (room === undefined) {
     return <div>Loading...</div>
   }

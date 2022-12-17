@@ -5,11 +5,11 @@ interface Props {
 const Tag = ({ isOptional }: Props) => {
   return (
     <div
-      className={`rounded px-[6px] py-[2px] ${
+      className={`rounded px-1.5 py-0.5 ${
         isOptional ? 'bg-background-secondary' : 'bg-warning'
       }`}
     >
-      <div className="text-base text-white">{isOptional ? '任意' : '必須'}</div>
+      <p className="text-xs text-white">{isOptional ? '任意' : '必須'}</p>
     </div>
   )
 }
