@@ -5,6 +5,7 @@ import GroupList from './GroupList'
 import { useRoomStore } from '/@/hooks/useRoomStore'
 import { Link } from 'react-router-dom'
 import { MdAdd } from 'react-icons/md'
+import { AnimatePresence, motion } from 'framer-motion'
 
 const Top = () => {
   const { data: rooms } = useRoomStore()
@@ -21,29 +22,51 @@ const Top = () => {
         }
       />
       <div className="p-5">
-        <div className='flex font-semibold h-[42px] mb-5'>
-          <button
-            onClick={() => setIsPaid(false)}
-            className={`w-full border-b-2 ${
-              !isPaid
-                ? 'text-blue-600 border-blue-600'
-                : 'text-gray-600 border-transparent'
+        <div className='mb-5'>
+          <div className='flex font-semibold h-[42px]'>
+            <button
+              onClick={() => setIsPaid(false)}
+              className={`w-full ${
+                !isPaid ? 'text-blue-600' : 'text-gray-600'
+              }`}
+            >
+              利用中
+            </button>
+            <button
+              onClick={() => setIsPaid(true)}
+              className={`w-full ${isPaid ? 'text-blue-600' : 'text-gray-600'}`}
+            >
+              精算済み
+            </button>
+          </div>
+          <div
+            className={`w-3/6 h-0.5 bg-blue-600 transition-transform duration-200 ${
+              isPaid ? 'translate-x-full' : ''
             }`}
-          >
-            利用中
-          </button>
-          <button
-            onClick={() => setIsPaid(true)}
-            className={`w-full border-b-2 ${
-              isPaid
-                ? 'text-blue-600 border-blue-600'
-                : 'text-gray-600 border-transparent'
-            }`}
-          >
-            精算済み
-          </button>
+          />
         </div>
-        <GroupList rooms={rooms ?? []} isPaid={isPaid} />
+
+        <AnimatePresence initial={false} mode="popLayout">
+          {!isPaid ? (
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              key="expence"
+            >
+              <GroupList rooms={rooms ?? []} isPaid={false} />
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              key="calculat"
+            >
+              <GroupList rooms={rooms ?? []} isPaid={true} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </PageContainer>
   )
