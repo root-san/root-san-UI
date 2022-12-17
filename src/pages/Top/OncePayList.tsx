@@ -1,9 +1,9 @@
-import { RoomData } from '/@/hooks/useRoomStore'
+import { OncePayData } from '/@/types/OncePayData'
 
-import GroupCard from './GroupCard'
+import OncePayCard from './OncePayCard'
 
 interface Props {
-  rooms: RoomData[]
+  oncePays: OncePayData[]
   isPaid?: boolean
 }
 
@@ -11,18 +11,18 @@ interface Props {
 // TODO: 現状だとempty statusが、roomが精算済み含めて0件の時にしか表示されない
 // まとめて取得できるAPIが生えればそっちを使いたいかも
 
-const GroupList = ({ rooms, isPaid }: Props) => {
-  if (rooms.length === 0) {
+const OncePayList = ({ oncePays, isPaid }: Props) => {
+  if (oncePays.length === 0) {
     return null
   }
 
   return (
     <div className='flex flex-col gap-2'>
-      {rooms.map((room) => (
-        <GroupCard key={room.roomId} {...room} isPaid={isPaid} />
+      {oncePays.map((oncePay) => (
+        <OncePayCard key={oncePay.id} oncePay={oncePay} isPaid={isPaid} />
       ))}
     </div>
   )
 }
 
-export default GroupList
+export default OncePayList
