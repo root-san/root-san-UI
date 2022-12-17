@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 
 import { MdArrowBackIosNew, MdMoreVert, MdLink } from 'react-icons/md'
 import { QRCodeCanvas } from 'qrcode.react'
@@ -14,9 +14,14 @@ import Modal from '/@/components/Modal'
 import Input from '/@/components/Input'
 import Button from '/@/components/Button'
 import { useCopyToClipboard } from '/@/hooks/useCopyToClipboard'
+import { useRoomStore } from '/@/hooks/useRoomStore'
+import apis from '/@/libs/apis'
 
 const Group = () => {
   const { roomId } = useParams()
+  const navigate = useNavigate()
+  const { getUserIdByRoomId, removeRoom } = useRoomStore()
+
   const [isCalculate, setIsCalculate] = useState(false)
   const [isShowMenu, setIsShowMenu] = useState(false)
   const [name, setName] = useState<string>('')
@@ -47,6 +52,24 @@ const Group = () => {
   }
   const handleDeleteRoom = () => {
     // TODO: delete
+  }
+  const handleRemoveMember = () => {
+    if (roomId === undefined) {
+      onCloseModal()
+      return
+    }
+    const myId = getUserIdByRoomId(roomId)
+    if (myId === undefined) {
+      onCloseModal()
+      return
+    }
+    try {
+      apis.deleteMember({ roomId: roomId, memberId: myId })
+      removeRoom(roomId)
+      navigate('/')
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   if (!roomId) {
@@ -141,12 +164,16 @@ const Group = () => {
           </button>
         </div>
       </Modal>
-      <Modal
-        title="グループから抜けますか？"
-        onClose={onCloseModal}
-        open={dialog === 'Remove'}
-      >
-        <div>抜ける</div>
+      <Modal onClose={onCloseModal} open={dialog === 'Remove'}>
+        <div>
+          <p className="font-bold text-lg text-center">
+            グループから抜けますか？
+          </p>
+          <div className="flex gap-[17px] mt-9 mb-5">
+            <Button onClick={handleRemoveMember} text="抜ける" warn />
+            <Button onClick={onCloseModal} text="キャンセル" white />
+          </div>
+        </div>
       </Modal>
     </PageContainer>
   )
