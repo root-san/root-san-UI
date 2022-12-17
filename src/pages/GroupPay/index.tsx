@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useState, useEffect, ChangeEvent } from 'react'
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { MdArrowBackIosNew, MdRestartAlt, MdError } from 'react-icons/md'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { v4 as uuidv4 } from 'uuid'
@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useRoom } from '/@/hooks/useRoom'
 import { useRoomStore } from '/@/hooks/useRoomStore'
 
-import apis from '/@/libs/apis'
+import apis, { RoomDetails } from '/@/libs/apis'
 
 import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
@@ -17,13 +17,29 @@ import Select from '/@/components/Select'
 import Tag from '/@/components/Tag'
 import Modal from '/@/components/Modal'
 import AnimateBody from '/@/components/AnimateBody'
+import { toDateFormat } from '/@/libs/date'
+
+const calcMemberAmount = (room: RoomDetails, amount: string) => {
+  const remainder = Number(amount) % room.members.length
+  const basePay = Math.floor(Number(amount) / room.members.length)
+
+  return Object.fromEntries(
+    room.members.map((member, idx) => {
+      if (idx < remainder) {
+        return [member.id, `${basePay + 1}`]
+      } else {
+        return [member.id, `${basePay}`]
+      }
+    })
+  )
+}
 
 const GroupPay = () => {
   const navigate = useNavigate()
   const { roomId } = useParams()
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
-  const [eventAt, setEventAt] = useState('')
+  const [eventAt, setEventAt] = useState(toDateFormat(new Date()))
   const [receiver, setReceiver] = useState('')
   /** id をキー, 支払額を値に持つ */
   const [memberAmount, setMemberAmount] = useState<Record<string, string>>({})
@@ -32,6 +48,8 @@ const GroupPay = () => {
 
   const { room, mutate } = useRoom(roomId)
   const { data } = useRoomStore()
+  const location = useLocation()
+  const isCreateNew = location.state === null || location.state === undefined
 
   useEffect(() => {
     if (room === undefined) {
@@ -55,19 +73,7 @@ const GroupPay = () => {
     if (room === undefined) {
       return
     }
-    const remainder = Number(amount) % room.members.length
-    const basePay = Math.floor(Number(amount) / room.members.length)
-    setMemberAmount(
-      Object.fromEntries(
-        room.members.map((member, idx) => {
-          if (idx < remainder) {
-            return [member.id, `${basePay + 1}`]
-          } else {
-            return [member.id, `${basePay}`]
-          }
-        })
-      )
-    )
+    setMemberAmount(calcMemberAmount(room, amount))
   }
 
   const submit = async () => {
@@ -109,6 +115,12 @@ const GroupPay = () => {
     }
   }
 
+  const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
+    if (room === undefined) return
+    setAmount(e.target.value)
+    setMemberAmount(calcMemberAmount(room, e.target.value))
+  }
+
   if (!roomId) {
     return <div>Room ID is not found</div>
   }
@@ -124,12 +136,14 @@ const GroupPay = () => {
             </Link>
           }
           right={
-            <RiDeleteBin6Line
-              className="text-[32px] text-warning"
-              onClick={() => {
-                setShowDeleteModal(true)
-              }}
-            />
+            !isCreateNew && (
+              <RiDeleteBin6Line
+                className="text-[32px] text-warning"
+                onClick={() => {
+                  setShowDeleteModal(true)
+                }}
+              />
+            )
           }
         />
         <AnimateBody>
@@ -147,7 +161,7 @@ const GroupPay = () => {
                 title="金額"
                 type="number"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={onChangeAmount}
               />
             </div>
             <div className="form-control w-full flex flex-col gap-y-3">
@@ -192,7 +206,7 @@ const GroupPay = () => {
                     <div className="w-[120px]">
                       <Input
                         type="number"
-                        value={memberAmount[member.id]}
+                        value={memberAmount[member.id] ?? ''}
                         onChange={(e) => {
                           const newVal = { ...memberAmount }
                           newVal[member.id] = e.target.value
@@ -227,7 +241,11 @@ const GroupPay = () => {
                 金額と合計が一致しません
               </div>
             )}
-            <Button text="登録する" onClick={submit} disabled={disabled} />
+            <Button
+              text={isCreateNew ? '登録する' : '保存する'}
+              onClick={submit}
+              disabled={disabled}
+            />
           </div>
         </AnimateBody>
       </PageContainer>
