@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { MdArrowBackIosNew, MdRestartAlt } from 'react-icons/md'
+import { MdArrowBackIosNew, MdRestartAlt, MdError } from 'react-icons/md'
 
 import { useRoom } from '/@/hooks/useRoom'
 import { useRoomStore } from '/@/hooks/useRoomStore'
@@ -143,12 +143,16 @@ const GroupPay = () => {
             ))}
           </div>
           <div className="flex flex-row items-center w-full gap-4">
-            <div className="text-base font-bold flex-1">合計</div>
+            <div className="flex flex-row items-center flex-1 gap-1">
+              <div className="text-base font-bold">合計</div>
+              {disabled && <MdError className="text-[20px] text-warning" />}
+            </div>
             <div className="w-[120px]">
               <Input
                 type="number"
                 value={amount}
                 onChange={(_e) => {}}
+                className={disabled ? 'outline-warning' : ''}
                 disabled
               />
             </div>

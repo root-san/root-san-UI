@@ -9,7 +9,14 @@ interface Props {
   className?: string
 }
 
-const Input = ({ title, type, value, disabled, onChange, className }: Props) => {
+const Input = ({
+  title,
+  type,
+  value,
+  disabled,
+  onChange,
+  className,
+}: Props) => {
   const id = useId()
   return (
     <div>
@@ -23,7 +30,7 @@ const Input = ({ title, type, value, disabled, onChange, className }: Props) => 
         type={type}
         className={`rounded-lg block w-full text-base py-3 px-4 outline-none ${
           className ?? ''
-        }`}
+        } ${disabled ? 'opacity-50 text-text-secondary' : ''}`}
         value={value}
         disabled={disabled}
         onChange={onChange}
