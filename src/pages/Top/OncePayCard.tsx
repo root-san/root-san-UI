@@ -17,7 +17,7 @@ const OncePayCard = ({ oncePay, isPaid }: Props) => {
   const { removeOncePay } = useOncePayStore()
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
-  const members = (oncePay.txns ?? []).map(txn => txn.name).join('・')
+  const members = (oncePay.txns ?? []).map((txn) => txn.name).join('・')
 
   const onDelete = async () => {
     await removeOncePay(oncePay.id)
@@ -36,7 +36,7 @@ const OncePayCard = ({ oncePay, isPaid }: Props) => {
 
   return (
     <>
-      <Link to={`/once_pay/${oncePay.id}`}>
+      <Link to={`/once-pay/${oncePay.id}`}>
         <DeletableCard
           onDelete={onConfirmDelete}
           open={openDelete}
@@ -46,9 +46,7 @@ const OncePayCard = ({ oncePay, isPaid }: Props) => {
           <div className='w-full py-4 px-5'>
             <p className='font-bold text-base truncate'>{oncePay.name}</p>
             <div className='flex text-gray-500 gap-x-2 text-xs'>
-              <p>
-                {toDateTime(new Date(oncePay.createdAt))}
-              </p>
+              <p>{toDateTime(new Date(oncePay.createdAt))}</p>
               <p className='truncate'>{members}</p>
             </div>
           </div>
