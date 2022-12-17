@@ -17,6 +17,7 @@ import { useCopyToClipboard } from '/@/hooks/useCopyToClipboard'
 import { useRoomStore } from '/@/hooks/useRoomStore'
 import apis from '/@/libs/apis'
 import { AnimatePresence, motion } from 'framer-motion'
+import AnimateBody from '/@/components/AnimateBody'
 
 const Group = () => {
   const { roomId } = useParams()
@@ -31,6 +32,7 @@ const Group = () => {
   )
   const [_, copy] = useCopyToClipboard()
   const shareUrl = `${window.location.origin}/join/${roomId}`
+  const [isAnimate, setIsAnimate] = useState(false)
 
   const { room, mutate } = useRoom(roomId)
 
@@ -127,17 +129,15 @@ const Group = () => {
             </div>
           }
         />
-        <motion.div
-          initial={{ x: '-100%' }}
-          animate={{ x: '0%' }}
-          exit={{ x: '-100%' }}
-          transition={{ duration: 0.5 }}
-        >
+        <AnimateBody>
           <div className="p-5">
             <div className='mb-6'>
               <div className='flex font-semibold h-[42px]'>
                 <button
-                  onClick={() => setIsCalculate(false)}
+                  onClick={() => {
+                    setIsAnimate(true)
+                    setIsCalculate(false)
+                  }}
                   className={`w-full ${
                     !isCalculate ? 'text-blue-600' : 'text-gray-600'
                   }`}
@@ -145,7 +145,10 @@ const Group = () => {
                   出費
                 </button>
                 <button
-                  onClick={() => setIsCalculate(true)}
+                  onClick={() => {
+                    setIsAnimate(true)
+                    setIsCalculate(true)
+                  }}
                   className={`w-full ${
                     isCalculate ? 'text-blue-600' : 'text-gray-600 '
                   }`}
@@ -163,7 +166,7 @@ const Group = () => {
               {room &&
                 (!isCalculate ? (
                   <motion.div
-                    initial={{ x: '-100%' }}
+                    initial={isAnimate && { x: '-100%' }}
                     animate={{ x: 0 }}
                     exit={{ x: '-100%' }}
                     key="expence"
@@ -172,7 +175,7 @@ const Group = () => {
                   </motion.div>
                 ) : (
                   <motion.div
-                    initial={{ x: '100%' }}
+                    initial={isAnimate && { x: '100%' }}
                     animate={{ x: 0 }}
                     exit={{ x: '100%' }}
                     key="calculat"
@@ -182,7 +185,7 @@ const Group = () => {
                 ))}
             </AnimatePresence>
           </div>
-        </motion.div>
+        </AnimateBody>
         <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
           <div className="mt-6">
             <Input

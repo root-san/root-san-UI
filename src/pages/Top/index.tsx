@@ -6,6 +6,7 @@ import { useRoomStore } from '/@/hooks/useRoomStore'
 import { Link } from 'react-router-dom'
 import { MdAdd } from 'react-icons/md'
 import { AnimatePresence, motion } from 'framer-motion'
+import AnimateBody from '/@/components/AnimateBody'
 
 const Top = () => {
   const { data: rooms } = useRoomStore()
@@ -21,12 +22,7 @@ const Top = () => {
           </Link>
         }
       />
-      <motion.div
-        initial={{ x: '-100%' }}
-        animate={{ x: '0%' }}
-        exit={{ x: '-100%' }}
-        transition={{ duration: 0.5 }}
-      >
+      <AnimateBody>
         <div className="p-5">
           <div className='mb-5'>
             <div className='flex font-semibold h-[42px]'>
@@ -75,7 +71,7 @@ const Top = () => {
             )}
           </AnimatePresence>
         </div>
-      </motion.div>
+      </AnimateBody>
     </PageContainer>
   )
 }
