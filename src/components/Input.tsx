@@ -7,6 +7,7 @@ interface Props {
   disabled?: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
+  children?: React.ReactNode
 }
 
 const Input = ({
@@ -16,6 +17,7 @@ const Input = ({
   disabled,
   onChange,
   className,
+  children,
 }: Props) => {
   const id = useId()
   return (
@@ -35,6 +37,7 @@ const Input = ({
         disabled={disabled}
         onChange={onChange}
       />
+      {children}
     </div>
   )
 }
