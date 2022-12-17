@@ -3,6 +3,7 @@ import jsQR from 'jsqr'
 import { motion } from 'framer-motion'
 import PageContainer from '/@/components/PageContainer'
 import { MdArrowBackIosNew } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 const videoWidth: number = 720
 const videoHeight: number = 720
@@ -29,6 +30,8 @@ const QRCodeReader = ({ onClose }: Props) => {
   const intervalRef = useRef<number>()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [qrCodeData, setQrCodeData] = useState<string[]>([])
+  const navigate = useNavigate()
+  const origin = window.location.origin
 
   useEffect(() => {
     const openCamera = async () => {
@@ -78,6 +81,17 @@ const QRCodeReader = ({ onClose }: Props) => {
         return
       }
 
+      // URLの形式が正しければJOINページに遷移する
+      const url = new URL(decodedValue)
+      if (
+        url.origin === origin &&
+        url.pathname.match(
+          /^\/join\/([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})$/
+        )
+      ) {
+        navigate(url.pathname)
+        return
+      }
       setQrCodeData([...qrCodeData, decodedValue])
     }, 1_000 / videoFrameRate)
     intervalRef.current = intervalId
