@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useAnimateSetting } from '/@/hooks/useAnimateSetting'
-import { UNSAFE_RouteContext, useLocation } from 'react-router-dom'
-import { useContext, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useRef } from 'react'
 interface Props {
   children: React.ReactNode
 }
