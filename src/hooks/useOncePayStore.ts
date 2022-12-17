@@ -23,8 +23,8 @@ export const useOncePayStore = () => {
     await mutate(newData, false)
   }
 
-  const removeOncePay = async (oncePay: OncePayData) => {
-    const newData = (data ?? []).filter((p) => p.id !== oncePay.id)
+  const removeOncePay = async (oncePayId: string) => {
+    const newData = (data ?? []).filter((p) => p.id !== oncePayId)
     await mutate(newData, false)
   }
 
