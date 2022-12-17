@@ -32,6 +32,11 @@ export const useRoomStore = () => {
     await mutate(newRooms, false)
   }
 
+  const getUserIdByRoomId = (roomId: string) => {
+    const room = (data ?? []).find((r) => r.roomId === roomId)
+    return room?.myId
+  }
+
   const deleteAllRoom = async () => {
     await mutate([], false)
   }
@@ -41,6 +46,7 @@ export const useRoomStore = () => {
     updateRoom,
     removeRoom,
     deleteAllRoom,
+    getUserIdByRoomId,
     data,
   }
 }

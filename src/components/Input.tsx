@@ -6,9 +6,10 @@ interface Props {
   value: string
   disabled?: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  className?: string
 }
 
-const Input = ({ title, type, value, disabled, onChange }: Props) => {
+const Input = ({ title, type, value, disabled, onChange, className }: Props) => {
   const id = useId()
   return (
     <div>
@@ -20,7 +21,9 @@ const Input = ({ title, type, value, disabled, onChange }: Props) => {
       <input
         id={id}
         type={type}
-        className="rounded-lg block w-full text-base py-3 px-4 outline-none"
+        className={`rounded-lg block w-full text-base py-3 px-4 outline-none ${
+          className ?? ''
+        }`}
         value={value}
         disabled={disabled}
         onChange={onChange}

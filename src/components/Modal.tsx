@@ -30,7 +30,7 @@ const Modal = ({ children, open, title, onClose }: ModalProps) => {
     <>
       {open && (
         <motion.div
-          className="w-full h-full fixed top-0 left-0 "
+          className="w-full h-full fixed top-0 left-0 z-50"
           onClick={handleOutSideClose}
           initial={{ backdropFilter: 'brightness(100%)' }}
           animate={{ backdropFilter: 'brightness(50%)' }}
