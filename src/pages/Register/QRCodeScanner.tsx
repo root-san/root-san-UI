@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import PageContainer from '/@/components/PageContainer'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
+import excludeImg from '/@/assets/exclude.svg'
 
 const videoWidth: number = 720
 const videoHeight: number = 720
@@ -131,7 +132,7 @@ const QRCodeReader = ({ onClose }: Props) => {
             </video>
           </div>
           <img
-            src="src/assets/exclude.svg"
+            src={excludeImg}
             alt=""
             className='absolute h-full min-w-full object-cover -z-20'
           />
