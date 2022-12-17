@@ -52,7 +52,7 @@ const DeletableCard = ({
   return (
     <div className="relative w-full" ref={ref}>
       <button
-        className="absolute top-0 h-full w-[80px] right-0 p-2 bg-red-500 z-0 rounded-r-xl active:bg-red-600"
+        className="absolute top-0 h-full w-[80px] right-0 p-2 bg-red-500 z-0 rounded-r-xl hover:bg-red-100 active:bg-red-100"
         onClick={onDelete}
       >
         <p className='text-white font-bold ml-1'>削除</p>
