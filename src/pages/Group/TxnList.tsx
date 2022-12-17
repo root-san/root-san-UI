@@ -1,6 +1,6 @@
 import { useRoom } from '/@/hooks/useRoom'
 import TxnCard from './TxnCard'
-import apis, { RoomDetails, Txn } from '/@/libs/apis'
+import apis, { RoomDetails } from '/@/libs/apis'
 import { toName } from '/@/libs/member'
 
 interface Props {
