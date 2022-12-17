@@ -109,11 +109,11 @@ const QRCodeReader = ({ onClose }: Props) => {
               <canvas ref={canvasRef} />
             </video>
           </div>
-          {/* <img
+          <img
             src="src/assets/exclude.svg"
             alt=""
             className='absolute h-full min-w-full object-cover -z-20'
-          /> */}
+          />
 
           <div>
             <p>{qrCodeData.join('\n')}</p>
