@@ -45,7 +45,7 @@ const RegisterOncePay = () => {
   return (
     <PageContainer>
       <Header
-        title="一度きり"
+        title="いちどきり"
         left={
           <MdArrowBackIosNew
             onClick={() => {
