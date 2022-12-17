@@ -111,10 +111,6 @@ const GroupPay = () => {
     return <div>Room ID is not found</div>
   }
 
-  if (room === undefined) {
-    return <div>Loading...</div>
-  }
-
   return (
     <>
       <PageContainer>
@@ -164,7 +160,7 @@ const GroupPay = () => {
               <Select
                 title="支払った人"
                 value={receiver}
-                options={room.members}
+                options={room?.members ?? []}
                 onChange={(e) => setReceiver(e.target.value)}
               />
             </div>
@@ -183,7 +179,7 @@ const GroupPay = () => {
                 </div>
               </div>
               <div className="flex flex-col w-full gap-2">
-                {room.members.map((member) => (
+                {room?.members.map((member) => (
                   <div
                     className="flex flex-row items-center gap-4"
                     key={member.id}
