@@ -19,7 +19,7 @@ const CountInput = ({ title, value, onChange, onPlus, onMinus }: Props) => {
         onChange={onChange}
         className="text-center"
       >
-        <Button text="-" onClick={onMinus} disabled={value <= 0} className="text-xs w-auto absolute bottom-1 left-1" />
+        <Button text="-" onClick={onMinus} disabled={value <= 1} className="text-xs w-auto absolute bottom-1 left-1" />
         <Button text="+" onClick={onPlus} className="text-xs w-auto absolute bottom-1 right-1" />
       </Input>
     </div>
