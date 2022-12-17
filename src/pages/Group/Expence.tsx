@@ -11,7 +11,7 @@ const Expence = ({ room }: Props) => {
   return (
     <div className='w-full'>
       <Link
-        to={`/group/${room.id}/addpay`}
+        to={`/group/${room.id}/add_pay`}
         className="my-6 block w-full h-10 bg-gray-700 hover:bg-gray-900 active:bg-gray-900 font-bold text-center text-white leading-10 rounded-lg text-base"
       >
         出費を追加する
