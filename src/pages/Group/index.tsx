@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, ChangeEvent } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 import { MdArrowBackIosNew, MdMoreVert, MdLink } from 'react-icons/md'
@@ -11,12 +11,15 @@ import Expence from './Expence'
 import Calculate from './Calculate'
 import Menu from './Menu'
 import Modal from '/@/components/Modal'
+import Input from '/@/components/Input'
+import Button from '/@/components/Button'
 import { useCopyToClipboard } from '/@/hooks/useCopyToClipboard'
 
 const Group = () => {
   const { roomId } = useParams()
   const [isCalculate, setIsCalculate] = useState(false)
   const [isShowMenu, setIsShowMenu] = useState(false)
+  const [name, setName] = useState<string>('')
   const [dialog, setDialog] = useState<'Edit' | 'Invite' | 'Remove' | null>(
     null
   )
@@ -29,9 +32,21 @@ const Group = () => {
   const handleMenuClick = (type: 'Edit' | 'Invite' | 'Remove') => {
     setDialog(type)
     setIsShowMenu(false)
+    setName(room?.name || '')
   }
   const onCloseModal = () => {
     setDialog(null)
+  }
+
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value)
+  }
+
+  const handleChangeName = () => {
+    // TODO: update
+  }
+  const handleDeleteRoom = () => {
+    // TODO: delete
   }
 
   if (!roomId) {
@@ -96,7 +111,19 @@ const Group = () => {
         {!isCalculate ? <Expence room={room} /> : <Calculate room={room} />}
       </div>
       <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
-        <div>編集</div>
+        <div className="mt-6">
+          <Input
+            type="text"
+            value={name}
+            onChange={onChangeName}
+            className="bg-gray-50"
+          />
+          <div className="flex gap-[17px] mt-9 mb-12">
+            <Button onClick={onCloseModal} text="キャンセル" white />
+            <Button onClick={handleChangeName} text="変更する" />
+          </div>
+          <Button onClick={handleDeleteRoom} text="グループを削除" warn />
+        </div>
       </Modal>
       <Modal
         title="グループに招待"
