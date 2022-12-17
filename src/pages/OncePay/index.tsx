@@ -8,6 +8,7 @@ import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
 import Input from '/@/components/Input'
 import Button from '/@/components/Button'
+import AnimateBody from '/@/components/AnimateBody'
 
 const OncePay = () => {
   const { id } = useParams()
@@ -55,38 +56,40 @@ const OncePay = () => {
           />
         }
       />
-      <div className='flex flex-col items-center gap-3 w-full p-5'>
-        {oncePay.txns.map((txn) => (
-          <div
-            key={txn.id}
-            className="w-full flex flex-row items-center bg-white gap-6 px-5 py-4 rounded-xl"
-          >
-            <div className="w-full flex flex-row items-center gap-6">
-              <Input
-                type="text"
-                value={names[txn.id] ?? ''}
+      <AnimateBody>
+        <div className='flex flex-col items-center gap-3 w-full p-5'>
+          {oncePay.txns.map((txn) => (
+            <div
+              key={txn.id}
+              className="w-full flex flex-row items-center bg-white gap-6 px-5 py-4 rounded-xl"
+            >
+              <div className="w-full flex flex-row items-center gap-6">
+                <Input
+                  type="text"
+                  value={names[txn.id] ?? ''}
+                  onChange={(e) => {
+                    setNames((prev) => ({ ...prev, [txn.id]: e.target.value }))
+                  }}
+                  className="text-base font-semibold flex-1 bg-background"
+                />
+                <div className="text-2xl font-bold">&yen;{txn.amount}</div>
+              </div>
+              <input
+                type="checkbox"
+                checked={isPaid[txn.id] ?? false}
                 onChange={(e) => {
-                  setNames((prev) => ({ ...prev, [txn.id]: e.target.value }))
+                  setIsPaid((prev) => ({ ...prev, [txn.id]: e.target.checked }))
                 }}
-                className="text-base font-semibold flex-1 bg-background"
+                className="w-5 h-5"
               />
-              <div className="text-2xl font-bold">&yen;{txn.amount}</div>
             </div>
-            <input
-              type="checkbox"
-              checked={isPaid[txn.id] ?? false}
-              onChange={(e) => {
-                setIsPaid((prev) => ({ ...prev, [txn.id]: e.target.checked }))
-              }}
-              className="w-5 h-5"
-            />
-          </div>
-        ))}
-        <div className="h-[108px]" />
-      </div>
-      <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
-        <Button text="完了" onClick={submit} />
-      </div>
+          ))}
+          <div className="h-[108px]" />
+        </div>
+        <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
+          <Button text="完了" onClick={submit} />
+        </div>
+      </AnimateBody>
     </PageContainer>
   )
 }

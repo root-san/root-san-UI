@@ -135,10 +135,6 @@ const QRCodeReader = ({ onClose }: Props) => {
             alt=""
             className='absolute h-full min-w-full object-cover -z-20'
           />
-
-          <div>
-            <p>{qrCodeData.join('\n')}</p>
-          </div>
           <div className='absolute top-0 grid h-12 w-full grid-cols-[32px_1fr_32px] items-center justify-items-center py-2 px-4'>
             <div className='h-5 w-5 text-xl'>
               <MdArrowBackIosNew color="white" onClick={handleStop} />

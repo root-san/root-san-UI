@@ -11,6 +11,7 @@ import Input from '/@/components/Input'
 import Button from '/@/components/Button'
 import CountInput from './CountInput'
 import { OncePayTxn } from '/@/types/OncePayData'
+import AnimateBody from '/@/components/AnimateBody'
 
 const RegisterOncePay = () => {
   const navigate = useNavigate()
@@ -54,41 +55,43 @@ const RegisterOncePay = () => {
           />
         }
       />
-      <div className='flex flex-col items-center w-full p-5'>
-        <div className='flex flex-col gap-y-6 w-full'>
-          <div className="form-control w-full flex flex-col gap-y-3">
-            <Input
-              title="名目"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
+      <AnimateBody>
+        <div className='flex flex-col items-center w-full p-5'>
+          <div className='flex flex-col gap-y-6 w-full'>
+            <div className="form-control w-full flex flex-col gap-y-3">
+              <Input
+                title="名目"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
 
-          <div className="form-control w-full flex flex-col gap-y-3">
-            <Input
-              title="金額"
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </div>
+            <div className="form-control w-full flex flex-col gap-y-3">
+              <Input
+                title="金額"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
 
-          <div className="form-control w-full flex flex-col gap-y-3">
-            <CountInput
-              title="人数"
-              value={count}
-              onChange={(e) => setCount(Number(e.target.value))}
-              onMinus={() => setCount(count - 1)}
-              onPlus={() => setCount(count + 1)}
-            />
+            <div className="form-control w-full flex flex-col gap-y-3">
+              <CountInput
+                title="人数"
+                value={count}
+                onChange={(e) => setCount(Number(e.target.value))}
+                onMinus={() => setCount(count - 1)}
+                onPlus={() => setCount(count + 1)}
+              />
+            </div>
           </div>
+          <div className="h-[108px]" />
         </div>
-        <div className="h-[108px]" />
-      </div>
-      <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
-        <Button text="割り勘する" onClick={submit} />
-      </div>
+        <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
+          <Button text="割り勘する" onClick={submit} />
+        </div>
+      </AnimateBody>
     </PageContainer>
   )
 }

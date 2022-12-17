@@ -12,6 +12,7 @@ import { useRoomStore } from '/@/hooks/useRoomStore'
 import apis from '/@/libs/apis'
 import { Link } from 'react-router-dom'
 import { MdArrowBackIosNew } from 'react-icons/md'
+import AnimateBody from '/@/components/AnimateBody'
 
 const Join = () => {
   const { roomId } = useParams()
@@ -54,25 +55,27 @@ const Join = () => {
           </Link>
         }
       />
-      <div className='flex flex-col items-center p-5'>
-        <img
-          src={people}
-          alt=""
-          className='h-[200px]'
-          width="200"
-          height="200"
-        />
-        <div className="mt-4 w-full mb-14">
-          <p className="text-center mb-6">{room.name}</p>
-          <Input
-            title="あなたの名前"
-            type="text"
-            value={name}
-            onChange={onChangeName}
+      <AnimateBody>
+        <div className='flex flex-col items-center p-5'>
+          <img
+            src={people}
+            alt=""
+            className='h-[200px]'
+            width="200"
+            height="200"
           />
+          <div className="mt-4 w-full mb-14">
+            <p className="text-center mb-6">{room.name}</p>
+            <Input
+              title="あなたの名前"
+              type="text"
+              value={name}
+              onChange={onChangeName}
+            />
+          </div>
+          <Button onClick={onClickJoin} text="参加する" />
         </div>
-        <Button onClick={onClickJoin} text="参加する" />
-      </div>
+      </AnimateBody>
     </PageContainer>
   )
 }
