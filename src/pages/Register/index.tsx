@@ -14,9 +14,11 @@ import Header from '/@/components/Header'
 import CardButton from '/@/components/CardButton'
 import Divider from '/@/components/Divider'
 import CreateGroupDialog from './CreateGroupDialog'
+import QRCodeReader from './QRCodeScanner'
 
 const Register = () => {
   const [showGroupDialog, setShowGroupDialog] = useState(false)
+  const [showQRScanner, setShowQRScanner] = useState(false)
 
   const openGroupDialog = () => {
     setShowGroupDialog(true)
@@ -24,6 +26,14 @@ const Register = () => {
 
   const closeGroupDialog = () => {
     setShowGroupDialog(false)
+  }
+
+  const openQRScanner = () => {
+    setShowQRScanner(true)
+  }
+
+  const closeQRScanner = () => {
+    setShowQRScanner(false)
   }
 
   return (
@@ -79,7 +89,7 @@ const Register = () => {
                   title="グループに参加する"
                   description="カメラで2次元コードを読み取ります"
                   icon={<MdQrCodeScanner className='text-5xl text-gray-700' />}
-                  onClick={() => {}}
+                  onClick={openQRScanner}
                 />
               </div>
             </div>
@@ -88,11 +98,8 @@ const Register = () => {
       </motion.div>
 
       <AnimatePresence>
-        {showGroupDialog && (
-          <CreateGroupDialog
-            onClose={closeGroupDialog}
-          />
-        )}
+        {showGroupDialog && <CreateGroupDialog onClose={closeGroupDialog} />}
+        {showQRScanner && <QRCodeReader onClose={closeQRScanner} />}
       </AnimatePresence>
     </>
   )
