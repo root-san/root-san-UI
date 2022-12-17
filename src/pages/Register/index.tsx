@@ -5,6 +5,7 @@ import {
   MdOutlineRamenDining,
   MdOutlineAirplaneTicket,
   MdQrCodeScanner,
+  MdArrowBackIosNew,
 } from 'react-icons/md'
 import { motion, AnimatePresence } from 'framer-motion'
 import people from '/@/assets/people.png'
@@ -51,7 +52,12 @@ const Register = () => {
       >
         <PageContainer>
           <Header
-            title="割り勘する"
+            title="新規作成"
+            left={
+              <Link to="/" className='text-2xl'>
+                <MdArrowBackIosNew />
+              </Link>
+            }
             right={
               <Link to="/help" className='text-[32px]'>
                 <MdHelpOutline />
