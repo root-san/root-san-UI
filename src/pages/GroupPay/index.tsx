@@ -76,21 +76,24 @@ const GroupPay = () => {
     }
     try {
       const eventId = uuidv4()
-      const txns = room.members.map((member) => {
-        const id = uuidv4()
-        return {
-          id,
-          amount: Number(memberAmount[member.id]),
-          receiver,
-          payer: member.id,
-        }
-      })
+      const txns = room.members
+        .map((member) => {
+          const id = uuidv4()
+          console.log(receiver)
+          return {
+            id,
+            amount: Number(memberAmount[member.id]),
+            receiver,
+            payer: member.id,
+          }
+        })
+        .filter((txn) => txn.amount > 0)
       const res = await apis.addEvent({
         roomId,
         eventRequestBody: {
           id: eventId,
           name,
-          eventType: 'inner',
+          eventType: 'outer',
           eventAt: new Date(eventAt),
           amount: Number(amount),
           txns,

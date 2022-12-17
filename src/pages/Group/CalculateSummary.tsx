@@ -34,9 +34,9 @@ const CalculateSummary = ({ total, paid, results }: Props) => {
             <p className="text-gray-500">{move.payer}</p>
             <p
               className={`font-bold + ${
-                move.amount >= 0 ? ' text-blue-500' : ' text-red-500'
+                move.amount <= 0 ? ' text-blue-500' : ' text-red-500'
               }`}
-            >{`${move.amount >= 0 ? '+' : '-'}¥${move.amount.toLocaleString(
+            >{`${move.amount <= 0 ? '+' : '-'}¥${Math.abs(move.amount).toLocaleString(
               'ja-JP'
             )}`}</p>
           </div>

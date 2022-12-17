@@ -1,6 +1,6 @@
 import { useRoom } from '/@/hooks/useRoom'
 import TxnCard from './TxnCard'
-import apis, { RoomDetails } from '/@/libs/apis'
+import apis, { RoomDetails, Txn } from '/@/libs/apis'
 import { toName } from '/@/libs/member'
 
 interface Props {
@@ -28,7 +28,7 @@ const TxnList = ({ room }: Props) => {
           event={event}
           payer={
             event.eventType === 'outer'
-              ? `${toName(room.members, event.txns[0].payer)}が支払い`
+              ? `${toName(room.members, event.txns[0].receiver)}が支払い`
               : `${toName(room.members, event.txns[0].payer)}が${toName(
                   room.members,
                   event.txns[0].receiver
