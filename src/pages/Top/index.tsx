@@ -35,7 +35,7 @@ const Top = () => {
               <button
                 onClick={() => setIsPaid(false)}
                 className={`w-full ${
-                  !isPaid ? 'text-blue-600' : 'text-gray-600'
+                  !isPaid ? 'text-primary' : 'text-gray-600'
                 }`}
               >
                 利用中
@@ -43,14 +43,14 @@ const Top = () => {
               <button
                 onClick={() => setIsPaid(true)}
                 className={`w-full ${
-                  isPaid ? 'text-blue-600' : 'text-gray-600'
+                  isPaid ? 'text-primary' : 'text-gray-600'
                 }`}
               >
                 精算済み
               </button>
             </div>
             <div
-              className={`w-3/6 h-0.5 bg-blue-600 transition-transform duration-200 ${
+              className={`w-3/6 h-0.5 bg-primary transition-transform duration-200 ${
                 isPaid ? 'translate-x-full' : ''
               }`}
             />
