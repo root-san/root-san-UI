@@ -17,6 +17,7 @@ import Select from '/@/components/Select'
 import Tag from '/@/components/Tag'
 import Modal from '/@/components/Modal'
 import AnimateBody from '/@/components/AnimateBody'
+import { toDateFormat } from '/@/libs/date'
 
 const calcMemberAmount = (room: RoomDetails, amount: string) => {
   const remainder = Number(amount) % room.members.length
@@ -38,7 +39,7 @@ const GroupPay = () => {
   const { roomId } = useParams()
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
-  const [eventAt, setEventAt] = useState('')
+  const [eventAt, setEventAt] = useState(toDateFormat(new Date()))
   const [receiver, setReceiver] = useState('')
   /** id をキー, 支払額を値に持つ */
   const [memberAmount, setMemberAmount] = useState<Record<string, string>>({})

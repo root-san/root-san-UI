@@ -7,3 +7,11 @@ export const toDateTime = (date: Date) => {
   const minute = `0${date.getMinutes()}`.slice(-2)
   return `${year}/${month}/${day} ${hour}:${minute}`
 }
+
+// yyyy-MM-dd
+export const toDateFormat = (date: Date) => {
+  const year = date.getFullYear()
+  const month = `0${date.getMonth() + 1}`.slice(-2)
+  const day = `0${date.getDate()}`.slice(-2)
+  return `${year}-${month}-${day}`
+}
