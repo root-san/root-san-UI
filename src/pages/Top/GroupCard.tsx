@@ -46,26 +46,25 @@ const GroupCard = ({ roomId, myId, isPaid }: Props) => {
 
   return (
     <>
-      <Link to={`/group/${room.id}`}>
-        <DeletableCard
-          onDelete={onConfirmDelete}
-          open={openDelete}
-          onOpen={() => setOpenDelete(true)}
-          onClose={() => setOpenDelete(false)}
-        >
-          <div className='w-full py-4 px-5'>
-            <p className='font-bold text-base truncate'>{room.name}</p>
-            <div className='flex text-gray-500 gap-x-2 text-xs'>
-              <p>
-                {room.createdAt !== undefined
-                  ? toDateTime(new Date(room.createdAt))
-                  : ''}
-              </p>
-              <p className='truncate'>{members}</p>
-            </div>
+      <DeletableCard
+        onDelete={onConfirmDelete}
+        open={openDelete}
+        onOpen={() => setOpenDelete(true)}
+        onClose={() => setOpenDelete(false)}
+        to={`/group/${room.id}`}
+      >
+        <div className='w-full py-4 px-5'>
+          <p className='font-bold text-base truncate'>{room.name}</p>
+          <div className='flex text-gray-500 gap-x-2 text-xs'>
+            <p>
+              {room.createdAt !== undefined
+                ? toDateTime(new Date(room.createdAt))
+                : ''}
+            </p>
+            <p className='truncate'>{members}</p>
           </div>
-        </DeletableCard>
-      </Link>
+        </div>
+      </DeletableCard>
       <Modal
         open={open}
         onClose={() => {
