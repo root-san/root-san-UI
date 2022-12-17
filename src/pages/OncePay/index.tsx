@@ -31,8 +31,14 @@ const OncePay = () => {
     setNames(Object.fromEntries(oncePay.txns.map((txn) => [txn.id, txn.name])))
   }, [])
 
-  const submit = () => {
-    console.log('submit')
+  const submit = async () => {
+    await updateOncePay({
+      ...oncePay,
+      txns: oncePay.txns.map(txn => {
+        return{...txn, name: names[txn.id], isPaid: isPaid[txn.id]}
+      })
+    })
+    navigate('/')
   }
 
   return (
