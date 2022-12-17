@@ -12,6 +12,7 @@ import Button from '/@/components/Button'
 import CountInput from './CountInput'
 import { OncePayTxn } from '/@/types/OncePayData'
 import AnimateBody from '/@/components/AnimateBody'
+import ModalPortal from '/@/components/ModalPortal'
 
 const RegisterOncePay = () => {
   const navigate = useNavigate()
@@ -88,9 +89,13 @@ const RegisterOncePay = () => {
           </div>
           <div className="h-[108px]" />
         </div>
-        <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
-          <Button text="割り勘する" onClick={submit} />
-        </div>
+        <ModalPortal>
+          <div className="w-full absolute bottom-0">
+            <div className="flex flex-col items-center gap-3 w-full px-5 pt-5 pb-10 bg-white shadow-[0_0_16px_rgba(0,0,0,0.1)] max-w-3xl m-auto">
+              <Button text="割り勘する" onClick={submit} />
+            </div>
+          </div>
+        </ModalPortal>
       </AnimateBody>
     </PageContainer>
   )

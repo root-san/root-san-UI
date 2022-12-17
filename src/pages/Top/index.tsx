@@ -35,7 +35,7 @@ const Top = () => {
               <button
                 onClick={() => setIsPaid(false)}
                 className={`w-full ${
-                  !isPaid ? 'text-primary' : 'text-gray-600'
+                  !isPaid ? 'text-primary' : 'text-gray-600 font-normal'
                 }`}
               >
                 利用中
@@ -43,7 +43,7 @@ const Top = () => {
               <button
                 onClick={() => setIsPaid(true)}
                 className={`w-full ${
-                  isPaid ? 'text-primary' : 'text-gray-600'
+                  isPaid ? 'text-primary' : 'text-gray-600 font-normal'
                 }`}
               >
                 精算済み
@@ -62,6 +62,7 @@ const Top = () => {
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 key="expence"
+                className="space-y-3"
               >
                 {(rooms ?? []).length === 0 && (data ?? []).length === 0 && (
                   <Empty />
@@ -75,6 +76,7 @@ const Top = () => {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 key="calculat"
+                className="space-y-3"
               >
                 {(rooms ?? []).length === 0 && (data ?? []).length === 0 && (
                   <Empty />
