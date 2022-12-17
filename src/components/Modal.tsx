@@ -2,6 +2,8 @@ import { MouseEvent } from 'react'
 import { MdOutlineClose } from 'react-icons/md'
 import { motion } from 'framer-motion'
 
+import ModalPortal from '/@/components/ModalPortal'
+
 interface ModalProps {
   children: React.ReactNode
   open: boolean
@@ -27,7 +29,7 @@ const Modal = ({ children, open, title, onClose }: ModalProps) => {
   }
 
   return (
-    <>
+    <ModalPortal>
       {open && (
         <motion.div
           className="w-full h-full fixed top-0 left-0 z-50"
@@ -51,7 +53,7 @@ const Modal = ({ children, open, title, onClose }: ModalProps) => {
           </motion.div>
         </motion.div>
       )}
-    </>
+    </ModalPortal>
   )
 }
 

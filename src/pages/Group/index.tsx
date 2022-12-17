@@ -16,6 +16,7 @@ import Button from '/@/components/Button'
 import { useCopyToClipboard } from '/@/hooks/useCopyToClipboard'
 import { useRoomStore } from '/@/hooks/useRoomStore'
 import apis from '/@/libs/apis'
+import { AnimatePresence, motion } from 'framer-motion'
 
 const Group = () => {
   const { roomId } = useParams()
@@ -30,6 +31,7 @@ const Group = () => {
   )
   const [_, copy] = useCopyToClipboard()
   const shareUrl = `${window.location.origin}/join/${roomId}`
+  const { room, mutate } = useRoom(roomId)
 
   const handleMenuClose = () => {
     setIsShowMenu(false)
@@ -97,7 +99,6 @@ const Group = () => {
     return <div>Room ID is not found</div>
   }
 
-  const { room, mutate } = useRoom(roomId)
   if (room === undefined) {
     return <div>Loading...</div>
   }
@@ -129,29 +130,52 @@ const Group = () => {
         }
       />
       <div className="p-5">
-        <div className='flex font-semibold h-[42px] mb-6'>
-          <button
-            onClick={() => setIsCalculate(false)}
-            className={`w-full border-b-2 ${
-              !isCalculate
-                ? 'text-blue-600 border-blue-600'
-                : 'text-gray-600 border-transparent'
+        <div className='mb-6'>
+          <div className='flex font-semibold h-[42px]'>
+            <button
+              onClick={() => setIsCalculate(false)}
+              className={`w-full ${
+                !isCalculate ? 'text-blue-600' : 'text-gray-600'
+              }`}
+            >
+              出費
+            </button>
+            <button
+              onClick={() => setIsCalculate(true)}
+              className={`w-full ${
+                isCalculate ? 'text-blue-600' : 'text-gray-600 '
+              }`}
+            >
+              精算
+            </button>
+          </div>
+          <div
+            className={`w-3/6 h-0.5 bg-blue-600 transition-transform duration-200 ${
+              isCalculate ? 'translate-x-full' : ''
             }`}
-          >
-            出費
-          </button>
-          <button
-            onClick={() => setIsCalculate(true)}
-            className={`w-full border-b-2 ${
-              isCalculate
-                ? 'text-blue-600 border-blue-600'
-                : 'text-gray-600 border-transparent'
-            }`}
-          >
-            精算
-          </button>
+          />
         </div>
-        {!isCalculate ? <Expence room={room} /> : <Calculate room={room} />}
+        <AnimatePresence initial={false} mode="popLayout">
+          {!isCalculate ? (
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              key="expence"
+            >
+              <Expence room={room} />
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              key="calculat"
+            >
+              <Calculate room={room} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
         <div className="mt-6">

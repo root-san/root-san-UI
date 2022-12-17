@@ -29,20 +29,16 @@ const GroupPay = () => {
   const [disabled, setDisabled] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-  if (!roomId) {
-    return <div>Room ID is not found</div>
-  }
-
   const { room, mutate } = useRoom(roomId)
   const { data } = useRoomStore()
-  if (room === undefined) {
-    return <div>Loading...</div>
-  }
 
-  const myId = data?.find((d) => room.id === d.roomId)?.myId
   useEffect(() => {
+    if (room === undefined) {
+      return
+    }
+    const myId = data?.find((d) => room.id === d.roomId)?.myId
     setReceiver(myId ?? '')
-  }, [])
+  }, [data, room])
 
   useEffect(() => {
     if (amount === '' || Number(amount) < 0) {
@@ -55,6 +51,9 @@ const GroupPay = () => {
   }, [amount, memberAmount])
 
   const evenUp = () => {
+    if (room === undefined) {
+      return
+    }
     const remainder = Number(amount) % room.members.length
     const basePay = Math.floor(Number(amount) / room.members.length)
     setMemberAmount(
@@ -71,7 +70,7 @@ const GroupPay = () => {
   }
 
   const submit = async () => {
-    if (disabled) {
+    if (disabled || room === undefined || roomId === undefined) {
       return
     }
     try {
@@ -105,6 +104,14 @@ const GroupPay = () => {
     } catch (e) {
       console.error(JSON.stringify(e))
     }
+  }
+
+  if (!roomId) {
+    return <div>Room ID is not found</div>
+  }
+
+  if (room === undefined) {
+    return <div>Loading...</div>
   }
 
   return (
@@ -161,7 +168,7 @@ const GroupPay = () => {
           </div>
           <div className="flex flex-col items-start w-full gap-4">
             <div className="flex flex-row w-full gap-4">
-              <div className="flex flex-row flex-1 gap-2">
+              <div className="flex flex-row flex-1 gap-2 items-center">
                 <div className="text-base font-bold">分配</div>
                 <Tag isOptional />
               </div>
@@ -170,13 +177,18 @@ const GroupPay = () => {
                 onClick={evenUp}
               >
                 <MdRestartAlt className="text-[24px]" />
-                <div className="text-base">均等にする</div>
+                <div className="text-base font-medium">均等にする</div>
               </div>
             </div>
             <div className="flex flex-col w-full gap-2">
               {room.members.map((member) => (
-                <div className="flex flex-row items-center gap-4">
-                  <div className="text-base flex-1">{member.name}</div>
+                <div
+                  className="flex flex-row items-center gap-4"
+                  key={member.id}
+                >
+                  <div className="text-base flex-1 font-medium">
+                    {member.name}
+                  </div>
                   <div className="w-[120px]">
                     <Input
                       type="number"
@@ -209,7 +221,7 @@ const GroupPay = () => {
           </div>
           <div className="h-[138px]" />
         </div>
-        <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
+        <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white shadow-[0_0_16px_rgba(0,0,0,0.1)]">
           {disabled && (
             <div className="text-xs font-bold text-warning">
               金額と合計が一致しません

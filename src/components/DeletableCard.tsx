@@ -1,8 +1,11 @@
+import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSwipeable } from 'react-swipeable'
 
 interface Props {
   children: React.ReactNode
   open: boolean
+  to?: string
   onOpen: () => void
   onClose: () => void
   onDelete: () => void
@@ -11,10 +14,12 @@ interface Props {
 const DeletableCard = ({
   children,
   open,
+  to,
   onOpen,
   onClose,
   onDelete,
 }: Props) => {
+  const navigate = useNavigate()
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       onOpen()
@@ -23,12 +28,29 @@ const DeletableCard = ({
       onClose()
     },
     onTap: () => {
+      if (!open && to !== undefined) {
+        navigate(to)
+      }
       onClose()
     },
     trackMouse: true,
   })
+
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (ref.current === null) return
+    const handleClickOutside = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        onClose()
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [ref.current, onClose])
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" ref={ref}>
       <button
         className="absolute top-0 h-full w-[80px] right-0 p-2 bg-red-500 z-0 rounded-r-xl active:bg-red-600"
         onClick={onDelete}
