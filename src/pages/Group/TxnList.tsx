@@ -25,8 +25,10 @@ const TxnList = ({ room }: Props) => {
       {
         room.events.sort((a, b) => {
           // eventAtの日付のみ(時間は無視)を第一条件、CreatedAtの時間を第二条件にして降順ソート
-          const aDate = new Date(a.eventAt.getFullYear(), a.eventAt.getMonth(), a.eventAt.getDate())
-          const bDate = new Date(b.eventAt.getFullYear(), b.eventAt.getMonth(), b.eventAt.getDate())
+          const ad = new Date(a.eventAt)
+          const bd = new Date(b.eventAt)
+          const aDate = new Date(ad.getFullYear(), ad.getMonth(), ad.getDate())
+          const bDate = new Date(bd.getFullYear(), bd.getMonth(), bd.getDate())
           if (aDate.getTime() > bDate.getTime()) {
             return -1
           } else if (aDate.getTime() < bDate.getTime()) {
