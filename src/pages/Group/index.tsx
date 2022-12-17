@@ -139,7 +139,7 @@ const Group = () => {
                     setIsCalculate(false)
                   }}
                   className={`w-full ${
-                    !isCalculate ? 'text-primary' : 'text-gray-600'
+                    !isCalculate ? 'text-primary' : 'text-gray-600 font-normal'
                   }`}
                 >
                   出費
@@ -150,7 +150,7 @@ const Group = () => {
                     setIsCalculate(true)
                   }}
                   className={`w-full ${
-                    isCalculate ? 'text-primary' : 'text-gray-600 '
+                    isCalculate ? 'text-primary' : 'text-gray-600 font-normal'
                   }`}
                 >
                   精算
