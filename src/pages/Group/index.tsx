@@ -187,7 +187,7 @@ const Group = () => {
           </div>
         </AnimateBody>
         <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
-          <div className="mt-6 h-[calc(85lvh-66px)]">
+          <div className="mt-6 h-[calc(85lvh-122px)]">
             <Input
               type="text"
               value={name}
