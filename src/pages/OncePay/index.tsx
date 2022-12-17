@@ -8,6 +8,7 @@ import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
 import Input from '/@/components/Input'
 import Button from '/@/components/Button'
+import AnimateBody from '/@/components/AnimateBody'
 
 const OncePay = () => {
   const { id } = useParams()
@@ -19,26 +20,28 @@ const OncePay = () => {
   /** id をキー, 名前を値に持つ */
   const [names, setNames] = useState<Record<string, string>>({})
 
-  if (!oncePay) {
-    // TODO: 404
-    return <div>Room ID is not found</div>
-  }
-
   useEffect(() => {
+    if (oncePay === undefined) return
     setIsPaid(
       Object.fromEntries(oncePay.txns.map((txn) => [txn.id, txn.isPaid]))
     )
     setNames(Object.fromEntries(oncePay.txns.map((txn) => [txn.id, txn.name])))
-  }, [])
+  }, [oncePay])
 
   const submit = async () => {
+    if (oncePay === undefined) return
     await updateOncePay({
       ...oncePay,
-      txns: oncePay.txns.map(txn => {
-        return{...txn, name: names[txn.id], isPaid: isPaid[txn.id]}
-      })
+      txns: oncePay.txns.map((txn) => {
+        return { ...txn, name: names[txn.id], isPaid: isPaid[txn.id] }
+      }),
     })
     navigate('/')
+  }
+
+  if (oncePay === undefined) {
+    // TODO: 404
+    return <div>Room ID is not found</div>
   }
 
   return (
@@ -53,39 +56,40 @@ const OncePay = () => {
           />
         }
       />
-      <div className='flex flex-col items-center gap-3 w-full p-5'>
-        {oncePay.txns.map((txn) => (
-          <div key={txn.id} className="w-full flex flex-row items-center bg-white gap-6 px-5 py-4">
-            <div className="w-full flex flex-row items-center gap-6">
-              <Input
-                type="text"
-                value={names[txn.id]}
+      <AnimateBody>
+        <div className='flex flex-col items-center gap-3 w-full p-5'>
+          {oncePay.txns.map((txn) => (
+            <div
+              key={txn.id}
+              className="w-full flex flex-row items-center bg-white gap-6 px-5 py-4 rounded-xl"
+            >
+              <div className="w-full flex flex-row items-center gap-6">
+                <Input
+                  type="text"
+                  value={names[txn.id] ?? ''}
+                  onChange={(e) => {
+                    setNames((prev) => ({ ...prev, [txn.id]: e.target.value }))
+                  }}
+                  className="text-base font-semibold flex-1 bg-background"
+                />
+                <div className="text-2xl font-bold">&yen;{txn.amount}</div>
+              </div>
+              <input
+                type="checkbox"
+                checked={isPaid[txn.id] ?? false}
                 onChange={(e) => {
-                  const newData = { ...names }
-                  newData[txn.id] = e.target.value
-                  setNames(newData)
+                  setIsPaid((prev) => ({ ...prev, [txn.id]: e.target.checked }))
                 }}
-                className="text-base font-semibold flex-1 bg-background"
+                className="w-5 h-5"
               />
-              <div className="text-2xl font-bold">&yen;{txn.amount}</div>
             </div>
-            <input
-              type="checkbox"
-              checked={isPaid[txn.id]}
-              onChange={(e) => {
-                const newData = { ...isPaid }
-                newData[txn.id] = e.target.checked
-                setIsPaid(newData)
-              }}
-              className="w-5 h-5"
-            />
-          </div>
-        ))}
-        <div className="h-[108px]" />
-      </div>
-      <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
-        <Button text="完了" onClick={submit} />
-      </div>
+          ))}
+          <div className="h-[108px]" />
+        </div>
+        <div className="flex flex-col items-center gap-3 w-full fixed bottom-0 px-5 pt-5 pb-10 bg-white">
+          <Button text="完了" onClick={submit} />
+        </div>
+      </AnimateBody>
     </PageContainer>
   )
 }

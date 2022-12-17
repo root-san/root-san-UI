@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   MdHelpOutline,
   MdOutlineRamenDining,
@@ -19,6 +19,7 @@ import QRCodeReader from './QRCodeScanner'
 const Register = () => {
   const [showGroupDialog, setShowGroupDialog] = useState(false)
   const [showQRScanner, setShowQRScanner] = useState(false)
+  const navigate = useNavigate()
 
   const openGroupDialog = () => {
     setShowGroupDialog(true)
@@ -34,6 +35,10 @@ const Register = () => {
 
   const closeQRScanner = () => {
     setShowQRScanner(false)
+  }
+
+  const onNavigateOncePay = () => {
+    navigate('/register/once-pay')
   }
 
   return (
@@ -81,7 +86,7 @@ const Register = () => {
                   icon={
                     <MdOutlineRamenDining className='text-5xl text-gray-700' />
                   }
-                  onClick={() => {}}
+                  onClick={onNavigateOncePay}
                   hasBackground
                 />
                 <Divider text="または" />
