@@ -16,6 +16,7 @@ module.exports = {
         background: '#F1F2F6', // main BG
         warning: '#F56565', // red 500
         selected: '#3182CE', // blue 500
+        'background-secondary': '#A0AEC0', // gray 400
       },
     },
   },

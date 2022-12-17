@@ -2,13 +2,21 @@ import React, { useId } from 'react'
 
 interface Props {
   title?: string
-  type: 'text' | 'number'
+  type: 'text' | 'number' | 'date'
   value: string
+  disabled?: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
 }
 
-const Input = ({ title, type, value, onChange, className }: Props) => {
+const Input = ({
+  title,
+  type,
+  value,
+  disabled,
+  onChange,
+  className,
+}: Props) => {
   const id = useId()
   return (
     <div>
@@ -22,8 +30,9 @@ const Input = ({ title, type, value, onChange, className }: Props) => {
         type={type}
         className={`rounded-lg block w-full text-base py-3 px-4 outline-none ${
           className ?? ''
-        }`}
+        } ${disabled ? 'opacity-50 text-text-secondary' : ''}`}
         value={value}
+        disabled={disabled}
         onChange={onChange}
       />
     </div>
