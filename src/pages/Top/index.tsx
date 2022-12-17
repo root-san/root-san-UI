@@ -21,53 +21,61 @@ const Top = () => {
           </Link>
         }
       />
-      <div className="p-5">
-        <div className='mb-5'>
-          <div className='flex font-semibold h-[42px]'>
-            <button
-              onClick={() => setIsPaid(false)}
-              className={`w-full ${
-                !isPaid ? 'text-blue-600' : 'text-gray-600'
+      <motion.div
+        initial={{ x: '-100%' }}
+        animate={{ x: '0%' }}
+        exit={{ x: '-100%' }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="p-5">
+          <div className='mb-5'>
+            <div className='flex font-semibold h-[42px]'>
+              <button
+                onClick={() => setIsPaid(false)}
+                className={`w-full ${
+                  !isPaid ? 'text-blue-600' : 'text-gray-600'
+                }`}
+              >
+                利用中
+              </button>
+              <button
+                onClick={() => setIsPaid(true)}
+                className={`w-full ${
+                  isPaid ? 'text-blue-600' : 'text-gray-600'
+                }`}
+              >
+                精算済み
+              </button>
+            </div>
+            <div
+              className={`w-3/6 h-0.5 bg-blue-600 transition-transform duration-200 ${
+                isPaid ? 'translate-x-full' : ''
               }`}
-            >
-              利用中
-            </button>
-            <button
-              onClick={() => setIsPaid(true)}
-              className={`w-full ${isPaid ? 'text-blue-600' : 'text-gray-600'}`}
-            >
-              精算済み
-            </button>
+            />
           </div>
-          <div
-            className={`w-3/6 h-0.5 bg-blue-600 transition-transform duration-200 ${
-              isPaid ? 'translate-x-full' : ''
-            }`}
-          />
+          <AnimatePresence initial={false} mode="popLayout">
+            {!isPaid ? (
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                key="expence"
+              >
+                <GroupList rooms={rooms ?? []} isPaid={false} />
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                key="calculat"
+              >
+                <GroupList rooms={rooms ?? []} isPaid={true} />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-
-        <AnimatePresence initial={false} mode="popLayout">
-          {!isPaid ? (
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              key="expence"
-            >
-              <GroupList rooms={rooms ?? []} isPaid={false} />
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              key="calculat"
-            >
-              <GroupList rooms={rooms ?? []} isPaid={true} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      </motion.div>
     </PageContainer>
   )
 }

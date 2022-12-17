@@ -31,6 +31,7 @@ const Group = () => {
   )
   const [_, copy] = useCopyToClipboard()
   const shareUrl = `${window.location.origin}/join/${roomId}`
+
   const { room, mutate } = useRoom(roomId)
 
   const handleMenuClose = () => {
@@ -99,127 +100,137 @@ const Group = () => {
     return <div>Room ID is not found</div>
   }
 
-  if (room === undefined) {
-    return <div>Loading...</div>
-  }
-
   return (
-    <PageContainer>
-      <Header
-        title={room?.name}
-        left={
-          <Link to="/" className='text-2xl'>
-            <MdArrowBackIosNew />
-          </Link>
-        }
-        right={
+    <>
+      <PageContainer>
+        <Header
+          title={room?.name ?? ''}
+          left={
+            <Link to="/" className='text-2xl'>
+              <MdArrowBackIosNew />
+            </Link>
+          }
+          right={
+            <div>
+              <button
+                className='text-2xl relative'
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setIsShowMenu(true)
+                }}
+              >
+                <MdMoreVert />
+              </button>
+              {isShowMenu && (
+                <Menu onClose={handleMenuClose} onClick={handleMenuClick} />
+              )}
+            </div>
+          }
+        />
+        <motion.div
+          initial={{ x: '-100%' }}
+          animate={{ x: '0%' }}
+          exit={{ x: '-100%' }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="p-5">
+            <div className='mb-6'>
+              <div className='flex font-semibold h-[42px]'>
+                <button
+                  onClick={() => setIsCalculate(false)}
+                  className={`w-full ${
+                    !isCalculate ? 'text-blue-600' : 'text-gray-600'
+                  }`}
+                >
+                  出費
+                </button>
+                <button
+                  onClick={() => setIsCalculate(true)}
+                  className={`w-full ${
+                    isCalculate ? 'text-blue-600' : 'text-gray-600 '
+                  }`}
+                >
+                  精算
+                </button>
+              </div>
+              <div
+                className={`w-3/6 h-0.5 bg-blue-600 transition-transform duration-200 ${
+                  isCalculate ? 'translate-x-full' : ''
+                }`}
+              />
+            </div>
+            <AnimatePresence initial={false} mode="popLayout">
+              {room &&
+                (!isCalculate ? (
+                  <motion.div
+                    initial={{ x: '-100%' }}
+                    animate={{ x: 0 }}
+                    exit={{ x: '-100%' }}
+                    key="expence"
+                  >
+                    <Expence room={room} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ x: '100%' }}
+                    animate={{ x: 0 }}
+                    exit={{ x: '100%' }}
+                    key="calculat"
+                  >
+                    <Calculate room={room} />
+                  </motion.div>
+                ))}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+        <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
+          <div className="mt-6">
+            <Input
+              type="text"
+              value={name}
+              onChange={onChangeName}
+              className="bg-gray-50"
+            />
+            <div className="flex gap-[17px] mt-9 mb-12">
+              <Button onClick={onCloseModal} text="キャンセル" white />
+              <Button onClick={handleChangeName} text="変更する" />
+            </div>
+            <Button onClick={handleDeleteRoom} text="グループを削除" warn />
+          </div>
+        </Modal>
+        <Modal
+          title="グループに招待"
+          onClose={onCloseModal}
+          open={dialog === 'Invite'}
+        >
           <div>
+            <QRCodeCanvas
+              value={shareUrl}
+              size={200}
+              className="mx-auto my-14"
+            />
             <button
-              className='text-2xl relative'
-              onClick={(e) => {
-                e.stopPropagation()
-                setIsShowMenu(true)
-              }}
+              onClick={() => copy(shareUrl)}
+              className="flex gap-1.5 rounded-full border border-[rgba(rgba(0, 0, 0, 0.16))] px-3 py-1 items-center mx-auto mb-6"
             >
-              <MdMoreVert />
-            </button>
-            {isShowMenu && (
-              <Menu onClose={handleMenuClose} onClick={handleMenuClick} />
-            )}
-          </div>
-        }
-      />
-      <div className="p-5">
-        <div className='mb-6'>
-          <div className='flex font-semibold h-[42px]'>
-            <button
-              onClick={() => setIsCalculate(false)}
-              className={`w-full ${
-                !isCalculate ? 'text-blue-600' : 'text-gray-600'
-              }`}
-            >
-              出費
-            </button>
-            <button
-              onClick={() => setIsCalculate(true)}
-              className={`w-full ${
-                isCalculate ? 'text-blue-600' : 'text-gray-600 '
-              }`}
-            >
-              精算
+              <MdLink className="text-2xl" />
+              <p className="font-bold text-xs">リンクをコピー</p>
             </button>
           </div>
-          <div
-            className={`w-3/6 h-0.5 bg-blue-600 transition-transform duration-200 ${
-              isCalculate ? 'translate-x-full' : ''
-            }`}
-          />
-        </div>
-        <AnimatePresence initial={false} mode="popLayout">
-          {!isCalculate ? (
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              key="expence"
-            >
-              <Expence room={room} />
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              key="calculat"
-            >
-              <Calculate room={room} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-      <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
-        <div className="mt-6">
-          <Input
-            type="text"
-            value={name}
-            onChange={onChangeName}
-            className="bg-gray-50"
-          />
-          <div className="flex gap-[17px] mt-9 mb-12">
-            <Button onClick={onCloseModal} text="キャンセル" white />
-            <Button onClick={handleChangeName} text="変更する" />
+        </Modal>
+        <Modal onClose={onCloseModal} open={dialog === 'Remove'}>
+          <div>
+            <p className="font-bold text-lg text-center">
+              グループから抜けますか？
+            </p>
+            <div className="flex gap-[17px] mt-9 mb-5">
+              <Button onClick={handleRemoveMember} text="抜ける" warn />
+              <Button onClick={onCloseModal} text="キャンセル" white />
+            </div>
           </div>
-          <Button onClick={handleDeleteRoom} text="グループを削除" warn />
-        </div>
-      </Modal>
-      <Modal
-        title="グループに招待"
-        onClose={onCloseModal}
-        open={dialog === 'Invite'}
-      >
-        <div>
-          <QRCodeCanvas value={shareUrl} size={200} className="mx-auto my-14" />
-          <button
-            onClick={() => copy(shareUrl)}
-            className="flex gap-1.5 rounded-full border border-[rgba(rgba(0, 0, 0, 0.16))] px-3 py-1 items-center mx-auto mb-6"
-          >
-            <MdLink className="text-2xl" />
-            <p className="font-bold text-xs">リンクをコピー</p>
-          </button>
-        </div>
-      </Modal>
-      <Modal onClose={onCloseModal} open={dialog === 'Remove'}>
-        <div>
-          <p className="font-bold text-lg text-center">
-            グループから抜けますか？
-          </p>
-          <div className="flex gap-[17px] mt-9 mb-5">
-            <Button onClick={handleRemoveMember} text="抜ける" warn />
-            <Button onClick={onCloseModal} text="キャンセル" white />
-          </div>
-        </div>
-      </Modal>
-    </PageContainer>
+        </Modal>
+      </PageContainer>
+    </>
   )
 }
 
