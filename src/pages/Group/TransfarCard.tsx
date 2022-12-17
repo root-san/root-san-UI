@@ -27,8 +27,8 @@ const TransfarCard = ({
       </p>
       <button
         className={
-          'w-full h-10 mt-4 bg-gray-700  font-bold text-center text-white text-sm leading-10 rounded-lg ' +
-          'hover:bg-gray-900 active:bg-gray-900 disabled:bg-gray-400 disabled:text-gray-200'
+          'w-full h-10 mt-4 bg-primary  font-bold text-center text-white text-sm leading-10 rounded-lg ' +
+          'hover:bg-primary-hover active:bg-primary-hover disabled:bg-gray-400 disabled:text-gray-200'
         }
         disabled={isPaid}
         onClick={() => onPaid(result)}

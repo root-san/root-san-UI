@@ -139,7 +139,7 @@ const Group = () => {
                     setIsCalculate(false)
                   }}
                   className={`w-full ${
-                    !isCalculate ? 'text-blue-600' : 'text-gray-600'
+                    !isCalculate ? 'text-primary' : 'text-gray-600 font-normal'
                   }`}
                 >
                   出費
@@ -150,14 +150,14 @@ const Group = () => {
                     setIsCalculate(true)
                   }}
                   className={`w-full ${
-                    isCalculate ? 'text-blue-600' : 'text-gray-600 '
+                    isCalculate ? 'text-primary' : 'text-gray-600 font-normal'
                   }`}
                 >
                   精算
                 </button>
               </div>
               <div
-                className={`w-3/6 h-0.5 bg-blue-600 transition-transform duration-200 ${
+                className={`w-3/6 h-0.5 bg-primary transition-transform duration-200 ${
                   isCalculate ? 'translate-x-full' : ''
                 }`}
               />
@@ -187,7 +187,7 @@ const Group = () => {
           </div>
         </AnimateBody>
         <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
-          <div className="mt-6">
+          <div className="mt-6 h-[calc(85lvh-66px)]">
             <Input
               type="text"
               value={name}

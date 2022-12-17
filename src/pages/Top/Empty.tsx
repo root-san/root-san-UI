@@ -8,7 +8,7 @@ const Empty = () => {
       <p className='font-semibold text-lg'>利用中のグループはありません</p>
       <Link
         to="/register"
-        className="w-64 h-10 bg-gray-700 hover:bg-gray-900 active:bg-gray-900 font-bold text-center text-white leading-10 rounded-lg px-4 mt-8"
+        className="w-64 h-10 bg-primary hover:bg-primary-hover active:bg-primary-hover font-bold text-center text-white leading-10 rounded-lg px-4 mt-8"
       >
         グループを作る
       </Link>
