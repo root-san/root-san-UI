@@ -14,6 +14,8 @@ import { OncePayTxn } from '/@/types/OncePayData'
 import AnimateBody from '/@/components/AnimateBody'
 import ModalPortal from '/@/components/ModalPortal'
 
+import { randomNameGenerator } from '/@/libs/randomNameGenerator'
+
 const RegisterOncePay = () => {
   const navigate = useNavigate()
   const [name, setName] = useState('')
@@ -29,7 +31,7 @@ const RegisterOncePay = () => {
     for (let i = 0; i < count; i++) {
       txns.push({
         id: uuidv4(),
-        name: 'hoge',
+        name: randomNameGenerator(),
         amount: basePay + (i < remainder ? 1 : 0),
         isPaid: false,
       })

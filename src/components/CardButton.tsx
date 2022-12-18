@@ -22,7 +22,7 @@ const CardButton = ({
       className={`w-full grid grid-cols-[48px_1fr_24px] gap-x-4 items-center justify-items-start p-5 rounded-xl transition-colors ${
         hasBackground
           ? 'bg-white hover:bg-gray-50 active:bg-gray-50'
-          : 'outline outline-2 outline-offset-[-2px] outline-gray-700 hover:backdrop-brightness-[0.97] active:backdrop-brightness-[0.97]'
+          : 'border-2 outline-offset-[-2px] border-gray-700 hover:backdrop-brightness-[0.97] active:backdrop-brightness-[0.97]'
       }`}
       onClick={onClick}
     >

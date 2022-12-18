@@ -49,7 +49,7 @@ const Register = () => {
         <Header
           title="新規作成"
           left={
-            <Link to="/" className='text-2xl'>
+            <Link to="/">
               <MdArrowBackIosNew />
             </Link>
           }

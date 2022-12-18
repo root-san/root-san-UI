@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 
 import { toDateTime } from '/@/libs/date'
 import { useOncePayStore } from '/@/hooks/useOncePayStore'
@@ -36,22 +35,21 @@ const OncePayCard = ({ oncePay, isPaid }: Props) => {
 
   return (
     <>
-      <Link to={`/once-pay/${oncePay.id}`}>
-        <DeletableCard
-          onDelete={onConfirmDelete}
-          open={openDelete}
-          onOpen={() => setOpenDelete(true)}
-          onClose={() => setOpenDelete(false)}
-        >
-          <div className='w-full py-4 px-5'>
-            <p className='font-bold text-base truncate'>{oncePay.name}</p>
-            <div className='flex text-gray-500 gap-x-2 text-xs'>
-              <p>{toDateTime(new Date(oncePay.createdAt))}</p>
-              <p className='truncate'>{members}</p>
-            </div>
+      <DeletableCard
+        onDelete={onConfirmDelete}
+        open={openDelete}
+        onOpen={() => setOpenDelete(true)}
+        onClose={() => setOpenDelete(false)}
+        to={`/once-pay/${oncePay.id}`}
+      >
+        <div className='w-full py-4 px-5'>
+          <p className='font-bold text-base truncate'>{oncePay.name}</p>
+          <div className='flex text-gray-500 gap-x-2 text-xs'>
+            <p>{toDateTime(new Date(oncePay.createdAt))}</p>
+            <p className='truncate'>{members}</p>
           </div>
-        </DeletableCard>
-      </Link>
+        </div>
+      </DeletableCard>
       <Modal
         open={open}
         onClose={() => {
