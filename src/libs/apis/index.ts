@@ -1,6 +1,8 @@
 import { DefaultApi, Configuration } from './generated'
 
-const basePath = import.meta.env.DEV ? '/api' : 'http://localhost:8080'
+const basePath = import.meta.env.DEV
+  ? '/api'
+  : 'https://root-san.trap.show/root-san'
 
 const conf = new Configuration({
   basePath,
