@@ -17,8 +17,10 @@ export const useAnimateSetting = () => {
     if (path.startsWith('/group')) {
       if (pathArray.length === 3) {
         return [4, 1]
+      } else if (pathArray.length === 4) {
+        return [5, 1]
       }
-      return [5, 1]
+      return [6, 1]
     }
     if (path.startsWith('/once-pay')) {
       return [4, 2]
