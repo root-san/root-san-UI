@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 
-import { MdArrowBackIosNew, MdMoreVert, MdLink } from 'react-icons/md'
+import { MdArrowBackIosNew, MdMoreVert, MdLink, MdOutlineCheckCircleOutline } from 'react-icons/md'
 import { QRCodeCanvas } from 'qrcode.react'
 
 import Header from '/@/components/Header'
@@ -26,6 +26,7 @@ const Group = () => {
 
   const [isCalculate, setIsCalculate] = useState(false)
   const [isShowMenu, setIsShowMenu] = useState(false)
+  const [copied, setCopied] = useState(false)
   const [name, setName] = useState<string>('')
   const [dialog, setDialog] = useState<'Edit' | 'Invite' | 'Remove' | null>(
     null
@@ -45,6 +46,7 @@ const Group = () => {
     setName(room?.name || '')
   }
   const onCloseModal = () => {
+    setCopied(false)
     setDialog(null)
   }
 
@@ -95,6 +97,14 @@ const Group = () => {
     } catch (e) {
       console.error(e)
     }
+  }
+
+  const handleCopy = () => {
+    copy(shareUrl)
+    setCopied(true)
+    setTimeout(() => {
+      setCopied(false)
+    }, 3000)
   }
 
   if (!roomId) {
@@ -213,11 +223,20 @@ const Group = () => {
               className="mx-auto my-14"
             />
             <button
-              onClick={() => copy(shareUrl)}
+              onClick={handleCopy}
               className="flex gap-1.5 rounded-full border border-[rgba(rgba(0, 0, 0, 0.16))] px-3 py-1 items-center mx-auto mb-6"
             >
-              <MdLink className="text-2xl" />
-              <p className="font-bold text-xs">リンクをコピー</p>
+              {copied ? (
+                <>
+                  <MdOutlineCheckCircleOutline className="text-2xl animate-scale-in-center" color='#5EB917'/>
+                  <p className="font-bold text-xs">コピーしました</p>
+                </>
+              ) : (
+                <>
+                  <MdLink className="text-2xl" />
+                  <p className="font-bold text-xs">リンクをコピー</p>
+                </>
+              )}
             </button>
           </div>
         </Modal>
