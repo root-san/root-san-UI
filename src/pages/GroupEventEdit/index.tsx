@@ -170,7 +170,7 @@ const GroupEventEdit = () => {
           }
           right={
             <RiDeleteBin6Line
-              className="text-[32px] text-warning"
+              className="text-[24px] text-warning"
               onClick={() => {
                 setShowDeleteModal(true)
               }}
