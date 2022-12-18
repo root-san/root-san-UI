@@ -10,6 +10,7 @@ import Help from '/@/pages/Help'
 import Join from '/@/pages/Join'
 import { AnimatePresence } from 'framer-motion'
 import { cloneElement } from 'react'
+import GroupEventEdit from '/@/pages/GroupEventEdit'
 
 const AppRoutes = () => {
   const element = useRoutes([
@@ -18,6 +19,7 @@ const AppRoutes = () => {
     { path: '/register/once-pay', element: <RegisterOncePay /> },
     { path: '/group/:roomId', element: <Group /> },
     { path: '/group/:roomId/add-pay', element: <GroupPay /> },
+    { path: '/group/:roomId/edit/:eventId', element: <GroupEventEdit /> },
     { path: '/once-pay/:id', element: <OncePay /> },
     { path: '/help', element: <Help /> },
     { path: '/join/:roomId', element: <Join /> },

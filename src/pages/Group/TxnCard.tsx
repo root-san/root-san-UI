@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import DeletableCard from '/@/components/DeletableCard'
 import Modal from '/@/components/Modal'
+import { useRoom } from '/@/hooks/useRoom'
 
 import { Event } from '/@/libs/apis'
 import { toDateTime } from '/@/libs/date'
@@ -8,10 +9,11 @@ import { toDateTime } from '/@/libs/date'
 interface Props {
   event: Event
   payer: string
+  roomId: string
   onDelete: (id: string) => void
 }
 
-const TxnCard = ({ event, payer, onDelete }: Props) => {
+const TxnCard = ({ event, payer, onDelete, roomId }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
@@ -32,6 +34,7 @@ const TxnCard = ({ event, payer, onDelete }: Props) => {
         onOpen={() => setIsDeleteOpen(true)}
         onClose={() => setIsDeleteOpen(false)}
         onDelete={onConfirmDelete}
+        to={`/group/${roomId}/edit/${event.id}`}
       >
         <div className='w-full py-4 px-5 relative'>
           <div
