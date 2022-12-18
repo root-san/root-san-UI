@@ -1,9 +1,8 @@
 import { DefaultApi, Configuration } from './generated'
 
-const basePath =
-  process.env.VITE_STAGE === 'development'
-    ? '/api'
-    : 'https://api.root3.trap.games'
+const basePath = import.meta.env.DEV
+  ? '/api'
+  : 'https://root-san.trap.show/root-san'
 
 const conf = new Configuration({
   basePath,
