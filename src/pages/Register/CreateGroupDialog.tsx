@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import apis from '/@/libs/apis'
 
-import people from '/@/assets/people.png'
+import people from '/@/assets/input.png'
 
 import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'

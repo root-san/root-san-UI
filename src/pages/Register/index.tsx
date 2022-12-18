@@ -8,7 +8,7 @@ import {
   MdArrowBackIosNew,
 } from 'react-icons/md'
 import { motion, AnimatePresence } from 'framer-motion'
-import people from '/@/assets/people.png'
+import people from '/@/assets/select.png'
 
 import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'

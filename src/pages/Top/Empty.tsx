@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import people from '/@/assets/people.png'
+import people from '/@/assets/nodata.png'
 
 const Empty = () => {
   return (

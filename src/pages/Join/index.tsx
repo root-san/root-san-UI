@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import Header from '/@/components/Header'
 import PageContainer from '/@/components/PageContainer'
-import people from '/@/assets/people.png'
+import people from '/@/assets/join.png'
 import { useRoom } from '/@/hooks/useRoom'
 import Input from '/@/components/Input'
 import { useState } from 'react'
