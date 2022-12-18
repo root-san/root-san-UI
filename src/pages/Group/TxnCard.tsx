@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import DeletableCard from '/@/components/DeletableCard'
 import Modal from '/@/components/Modal'
+import { useRoom } from '/@/hooks/useRoom'
 
 import { Event } from '/@/libs/apis'
 import { toDateTime } from '/@/libs/date'

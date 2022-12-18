@@ -132,6 +132,18 @@ const GroupEventEdit = () => {
     }
   }
 
+  const deleteEvent = async () => {
+    if (roomId === undefined || eventId === undefined) {
+      return
+    }
+    try {
+      await apis.deleteEvent({ roomId, eventId })
+      await mutate()
+    } catch (e) {
+      console.error(JSON.stringify(e))
+    }
+  }
+
   const onChangeAmount = (e: ChangeEvent<HTMLInputElement>) => {
     if (room === undefined) return
     setAmount(e.target.value)
@@ -291,6 +303,7 @@ const GroupEventEdit = () => {
             <Button
               text="削除"
               onClick={() => {
+                deleteEvent()
                 navigate(`/group/${roomId}`)
               }}
               warn

@@ -9,12 +9,12 @@ interface Props {
 
 const TxnList = ({ room }: Props) => {
   const { mutate } = useRoom(room.id)
-  const onDelete = (id: string) => {
+  const onDelete = async (id: string) => {
     try {
-      apis.deleteEvent({ roomId: room.id, eventId: id })
+      await apis.deleteEvent({ roomId: room.id, eventId: id })
       const newRoom = { ...room }
       newRoom.events = newRoom.events.filter((event) => event.id !== id)
-      mutate(newRoom)
+      await mutate(newRoom)
     } catch (e) {
       console.error(e)
     }
