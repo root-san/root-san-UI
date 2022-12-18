@@ -70,4 +70,7 @@ export default defineConfig({
     },
     host: true,
   },
+  preview: {
+    port: 3000,
+  },
 })
