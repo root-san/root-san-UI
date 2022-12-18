@@ -33,7 +33,7 @@ const Menu = ({ onClose, onClick }: Props) => {
         ref={ref}
       >
         <button
-          className="flex justify-start items-center gap-2 h-6"
+          className="flex justify-start items-center gap-2 h-6 w-full"
           onClick={(e) => {
             e.stopPropagation()
             onClick('Invite')
@@ -43,7 +43,7 @@ const Menu = ({ onClose, onClick }: Props) => {
           <p>グループに招待</p>
         </button>
         <button
-          className="flex justify-start items-center gap-2 h-6"
+          className="flex justify-start items-center gap-2 h-6 w-full"
           onClick={(e) => {
             e.stopPropagation()
             onClick('Edit')
@@ -53,7 +53,7 @@ const Menu = ({ onClose, onClick }: Props) => {
           <p>編集</p>
         </button>
         <button
-          className="flex justify-start items-center gap-2 text-red-500"
+          className="flex justify-start items-center gap-2 text-red-500 w-full"
           onClick={(e) => {
             e.stopPropagation()
             onClick('Remove')

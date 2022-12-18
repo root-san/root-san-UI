@@ -181,7 +181,7 @@ const Group = () => {
                     exit={{ x: '-100%' }}
                     key="expence"
                   >
-                    <Expence room={room} />
+                    <Expence room={room} invite={() => setDialog('Invite')} />
                   </motion.div>
                 ) : (
                   <motion.div

@@ -227,7 +227,7 @@ const GroupPay = () => {
                     type="number"
                     value={amount}
                     onChange={(_e) => {}}
-                    className={disabled ? 'outline-warning' : ''}
+                    className={disabled ? 'border-2 border-warning' : ''}
                     disabled
                   />
                 </div>

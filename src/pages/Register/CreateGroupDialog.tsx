@@ -25,6 +25,9 @@ const CreateGroupDialog = ({ onClose }: Props) => {
   const navigate = useNavigate()
 
   const submit = async () => {
+    if (groupName === '' || userName === '') {
+      return
+    }
     try {
       const roomId = uuidv4()
       const userId = uuidv4()
@@ -100,7 +103,7 @@ const CreateGroupDialog = ({ onClose }: Props) => {
                   </div>
                 </div>
                 <div className='mt-10'>
-                  <Button text="作成する" onClick={submit} />
+                  <Button text="作成する" onClick={submit} disabled={groupName === '' || userName === ''} />
                 </div>
               </motion.div>
             </div>
