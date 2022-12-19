@@ -7,7 +7,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { useRoom } from '/@/hooks/useRoom'
 import { useRoomStore } from '/@/hooks/useRoomStore'
 
-import apis, { RoomDetails } from '/@/libs/apis'
+import apis from '/@/libs/apis'
+import { toDateFormat } from '/@/libs/date'
+import { calcMemberAmount } from '/@/libs/calcMemberAmount'
 
 import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
@@ -17,22 +19,6 @@ import Select from '/@/components/Select'
 import Tag from '/@/components/Tag'
 import Modal from '/@/components/Modal'
 import AnimateBody from '/@/components/AnimateBody'
-import { toDateFormat } from '/@/libs/date'
-
-const calcMemberAmount = (room: RoomDetails, amount: string) => {
-  const remainder = Number(amount) % room.members.length
-  const basePay = Math.floor(Number(amount) / room.members.length)
-
-  return Object.fromEntries(
-    room.members.map((member, idx) => {
-      if (idx < remainder) {
-        return [member.id, `${basePay + 1}`]
-      } else {
-        return [member.id, `${basePay}`]
-      }
-    })
-  )
-}
 
 const GroupEventEdit = () => {
   const navigate = useNavigate()
@@ -62,6 +48,9 @@ const GroupEventEdit = () => {
     setName(event.name)
     setAmount(`${event.amount}`)
     setEventAt(toDateFormat(new Date(event.eventAt)))
+
+    const nowMemberAmount = Object.fromEntries(event.txns.map(txn => [txn.payer, `${txn.amount}`]))
+    room.members.forEach(member => nowMemberAmount[member.id] = nowMemberAmount[member.id] ?? '0')
     setMemberAmount(calcMemberAmount(room, `${event.amount}`))
 
     if (event.txns.length > 0) {
@@ -123,7 +112,7 @@ const GroupEventEdit = () => {
         },
       })
       const newRoom = { ...room }
-      newRoom.events.push(res)
+      newRoom.events = newRoom.events.map(event => event.id === eventId ? res : event)
       await mutate(newRoom)
 
       navigate(`/group/${roomId}`)
