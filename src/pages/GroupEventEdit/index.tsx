@@ -51,7 +51,7 @@ const GroupEventEdit = () => {
 
     const nowMemberAmount = Object.fromEntries(event.txns.map(txn => [txn.payer, `${txn.amount}`]))
     room.members.forEach(member => nowMemberAmount[member.id] = nowMemberAmount[member.id] ?? '0')
-    setMemberAmount(calcMemberAmount(room, `${event.amount}`))
+    setMemberAmount(nowMemberAmount)
 
     if (event.txns.length > 0) {
       setReceiver(
