@@ -18,7 +18,9 @@ const Expence = ({ room, invite }: Props) => {
       >
         出費を追加する
       </Link>
-      <Button text="グループに招待する" onClick={invite} className="bg-transparent text-gray-700 border-[1px] border-gray-700 hover:bg-[#e7e8ec] active:bg-[#e7e8ec]"/>
+      {room.events.length === 0 && (
+        <Button text="グループに招待する" onClick={invite} className="bg-transparent text-gray-700 border-[1px] border-gray-700 hover:bg-[#e7e8ec] active:bg-[#e7e8ec]"/>
+      )}
       <TxnList room={room} />
     </div>
   )
