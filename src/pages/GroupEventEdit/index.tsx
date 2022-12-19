@@ -123,7 +123,7 @@ const GroupEventEdit = () => {
         },
       })
       const newRoom = { ...room }
-      newRoom.events.push(res)
+      newRoom.events = newRoom.events.map(event => event.id === eventId ? res : event)
       await mutate(newRoom)
 
       navigate(`/group/${roomId}`)
