@@ -1,39 +1,35 @@
 import { useState, ChangeEvent } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 
-import { MdArrowBackIosNew, MdMoreVert, MdLink, MdOutlineCheckCircleOutline } from 'react-icons/md'
-import { QRCodeCanvas } from 'qrcode.react'
+import { MdArrowBackIosNew, MdMoreVert } from 'react-icons/md'
 
 import Header from '/@/components/Header'
 import PageContainer from '/@/components/PageContainer'
-import { useRoom } from '/@/hooks/useRoom'
-import Expence from './Expence'
-import Calculate from './Calculate'
-import Menu from './Menu'
 import Modal from '/@/components/Modal'
 import Input from '/@/components/Input'
 import Button from '/@/components/Button'
-import { useCopyToClipboard } from '/@/hooks/useCopyToClipboard'
-import { useRoomStore } from '/@/hooks/useRoomStore'
-import apis from '/@/libs/apis'
-import { AnimatePresence, motion } from 'framer-motion'
 import AnimateBody from '/@/components/AnimateBody'
+import CopyModal from './CopyModal'
+import Tab from '/@/components/Tab'
+import Expence from './Expence'
+import Calculate from './Calculate'
+import Menu from './Menu'
+
+import { useRoomStore } from '/@/hooks/useRoomStore'
+import { useRoom } from '/@/hooks/useRoom'
+import apis from '/@/libs/apis'
 
 const Group = () => {
   const { roomId } = useParams()
   const navigate = useNavigate()
   const { getUserIdByRoomId, removeRoom } = useRoomStore()
 
-  const [isCalculate, setIsCalculate] = useState(false)
   const [isShowMenu, setIsShowMenu] = useState(false)
-  const [copied, setCopied] = useState(false)
+
   const [name, setName] = useState<string>('')
   const [dialog, setDialog] = useState<'Edit' | 'Invite' | 'Remove' | null>(
     null
   )
-  const [_, copy] = useCopyToClipboard()
-  const shareUrl = `${window.location.origin}/join/${roomId}`
-  const [isAnimate, setIsAnimate] = useState(false)
 
   const { room, mutate } = useRoom(roomId)
 
@@ -46,7 +42,6 @@ const Group = () => {
     setName(room?.name || '')
   }
   const onCloseModal = () => {
-    setCopied(false)
     setDialog(null)
   }
 
@@ -99,14 +94,6 @@ const Group = () => {
     }
   }
 
-  const handleCopy = () => {
-    copy(shareUrl)
-    setCopied(true)
-    setTimeout(() => {
-      setCopied(false)
-    }, 3000)
-  }
-
   if (!roomId) {
     // TODO: 404
     return <div>Room ID is not found</div>
@@ -141,59 +128,17 @@ const Group = () => {
         />
         <AnimateBody>
           <div className="p-5">
-            <div className='mb-6'>
-              <div className='flex font-semibold h-[42px]'>
-                <button
-                  onClick={() => {
-                    setIsAnimate(true)
-                    setIsCalculate(false)
-                  }}
-                  className={`w-full ${
-                    !isCalculate ? 'text-primary' : 'text-gray-600 font-normal'
-                  }`}
-                >
-                  出費
-                </button>
-                <button
-                  onClick={() => {
-                    setIsAnimate(true)
-                    setIsCalculate(true)
-                  }}
-                  className={`w-full ${
-                    isCalculate ? 'text-primary' : 'text-gray-600 font-normal'
-                  }`}
-                >
-                  精算
-                </button>
-              </div>
-              <div
-                className={`w-3/6 h-0.5 bg-primary transition-transform duration-200 ${
-                  isCalculate ? 'translate-x-full' : ''
-                }`}
-              />
-            </div>
-            <AnimatePresence initial={false} mode="popLayout">
-              {room &&
-                (!isCalculate ? (
-                  <motion.div
-                    initial={isAnimate && { x: '-100%' }}
-                    animate={{ x: 0 }}
-                    exit={{ x: '-100%' }}
-                    key="expence"
-                  >
-                    <Expence room={room} invite={() => setDialog('Invite')} />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    initial={isAnimate && { x: '100%' }}
-                    animate={{ x: 0 }}
-                    exit={{ x: '100%' }}
-                    key="calculat"
-                  >
-                    <Calculate room={room} />
-                  </motion.div>
-                ))}
-            </AnimatePresence>
+            <Tab
+              leftName="出費"
+              rightName="精算"
+              left={
+                room && (
+                  <Expence room={room} invite={() => setDialog('Invite')} />
+                )
+              }
+              right={room && <Calculate room={room} />}
+              id="calc"
+            />
           </div>
         </AnimateBody>
         <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
@@ -211,35 +156,7 @@ const Group = () => {
             <Button onClick={handleDeleteRoom} text="グループを削除" warn />
           </div>
         </Modal>
-        <Modal
-          title="グループに招待"
-          onClose={onCloseModal}
-          open={dialog === 'Invite'}
-        >
-          <div>
-            <QRCodeCanvas
-              value={shareUrl}
-              size={200}
-              className="mx-auto my-14"
-            />
-            <button
-              onClick={handleCopy}
-              className="flex gap-1.5 rounded-full border border-[rgba(rgba(0, 0, 0, 0.16))] px-3 py-1 items-center mx-auto mb-6"
-            >
-              {copied ? (
-                <>
-                  <MdOutlineCheckCircleOutline className="text-2xl animate-scale-in-center" color='#5EB917'/>
-                  <p className="font-bold text-xs">コピーしました</p>
-                </>
-              ) : (
-                <>
-                  <MdLink className="text-2xl" />
-                  <p className="font-bold text-xs">リンクをコピー</p>
-                </>
-              )}
-            </button>
-          </div>
-        </Modal>
+        <CopyModal onClose={onCloseModal} open={dialog === 'Invite'} />
         <Modal onClose={onCloseModal} open={dialog === 'Remove'}>
           <div>
             <p className="font-bold text-lg text-center">
