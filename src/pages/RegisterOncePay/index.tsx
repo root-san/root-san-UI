@@ -59,37 +59,26 @@ const RegisterOncePay = () => {
         }
       />
       <AnimateBody>
-        <div className='flex flex-col items-center w-full p-5'>
-          <div className='flex flex-col gap-y-6 w-full'>
-            <div className="form-control w-full flex flex-col gap-y-3">
-              <Input
-                title="名目"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-
-            <div className="form-control w-full flex flex-col gap-y-3">
-              <Input
-                title="金額"
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-            </div>
-
-            <div className="form-control w-full flex flex-col gap-y-3">
-              <CountInput
-                title="人数"
-                value={count}
-                onChange={(e) => setCount(Number(e.target.value))}
-                onMinus={() => setCount(count - 1)}
-                onPlus={() => setCount(count + 1)}
-              />
-            </div>
-          </div>
-          <div className="h-[108px]" />
+        <div className='space-y-6 w-full p-5'>
+          <Input
+            title="名目"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            title="金額"
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <CountInput
+            title="人数"
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+            onMinus={() => setCount(count - 1)}
+            onPlus={() => setCount(count + 1)}
+          />
         </div>
         <ModalPortal>
           <div className="w-full absolute bottom-0">
