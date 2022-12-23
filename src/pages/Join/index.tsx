@@ -1,40 +1,36 @@
-import { useNavigate, useParams } from 'react-router'
-import { v4 as uuidv4 } from 'uuid'
+import { useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
+import { v4 as uuidv4 } from 'uuid'
+import { MdArrowBackIosNew } from 'react-icons/md'
+
+import AnimateBody from '/@/components/AnimateBody'
 import Header from '/@/components/Header'
 import PageContainer from '/@/components/PageContainer'
-import people from '/@/assets/join.png'
-import { useRoom } from '/@/hooks/useRoom'
 import Input from '/@/components/Input'
-import { useState } from 'react'
 import Button from '/@/components/Button'
+
 import { useRoomStore } from '/@/hooks/useRoomStore'
+import { useRoom } from '/@/hooks/useRoom'
 import apis from '/@/libs/apis'
-import { Link } from 'react-router-dom'
-import { MdArrowBackIosNew } from 'react-icons/md'
-import AnimateBody from '/@/components/AnimateBody'
+import people from '/@/assets/join.png'
 
 const Join = () => {
   const { roomId } = useParams()
   const [name, setName] = useState<string>('')
   const { addRoom } = useRoomStore()
   const navigate = useNavigate()
-  if (roomId === undefined || roomId.length !== 36) {
-    // TODO: 404ページに遷移する
-    navigate('/')
-    return null
-  }
+  const { room } = useRoom(roomId)
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
   }
 
-  const { room } = useRoom(roomId)
-  if (room === undefined) {
-    return null
-  }
-
   const onClickJoin = async () => {
+    if (roomId === undefined || roomId.length !== 36) {
+      return
+    }
+
     const myId = uuidv4()
     try {
       await apis.addMember({ roomId: roomId, member: { id: myId, name: name } })
@@ -43,6 +39,16 @@ const Join = () => {
     } catch (e) {
       console.error(e)
     }
+  }
+
+  if (roomId === undefined || roomId.length !== 36) {
+    // TODO: 404ページに遷移する
+    navigate('/')
+    return null
+  }
+
+  if (room === undefined) {
+    return null
   }
 
   return (
