@@ -9,6 +9,7 @@ import Header from '/@/components/Header'
 import PageContainer from '/@/components/PageContainer'
 import Input from '/@/components/Input'
 import Button from '/@/components/Button'
+import TitleImage from '/@/components/TitleImage'
 
 import { useRoomStore } from '/@/hooks/useRoomStore'
 import { useRoom } from '/@/hooks/useRoom'
@@ -63,15 +64,8 @@ const Join = () => {
       />
       <AnimateBody>
         <div className='flex flex-col items-center p-5'>
-          <img
-            src={people}
-            alt=""
-            className='h-[200px]'
-            width="200"
-            height="200"
-          />
-          <div className="mt-4 w-full mb-14">
-            <p className="text-center mb-6">{room.name}</p>
+          <TitleImage src={people} title={room.name} />
+          <div className="mt-6 w-full mb-14">
             <Input
               title="あなたの名前"
               type="text"
