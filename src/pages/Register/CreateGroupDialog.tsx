@@ -68,22 +68,18 @@ const CreateGroupDialog = ({ onClose }: Props) => {
                 exit={{ x: '120%', opacity: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="form-control w-full flex flex-col gap-y-3">
-                  <Input
-                    title="グループ名"
-                    type="text"
-                    value={groupName}
-                    onChange={(e) => setGroupName(e.target.value)}
-                  />
-                </div>
-                <div className="form-control w-full flex flex-col gap-y-3">
-                  <Input
-                    title="あなたの名前"
-                    type="text"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                  />
-                </div>
+                <Input
+                  title="グループ名"
+                  type="text"
+                  value={groupName}
+                  onChange={(e) => setGroupName(e.target.value)}
+                />
+                <Input
+                  title="あなたの名前"
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
                 <div className='mt-10'>
                   <Button
                     text="作成する"
