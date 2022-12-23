@@ -4,15 +4,16 @@ import { motion } from 'framer-motion'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import { v4 as uuidv4 } from 'uuid'
 
+import { useRoomStore } from '/@/hooks/useRoomStore'
 import apis from '/@/libs/apis'
-
-import people from '/@/assets/input.png'
 
 import PageContainer from '/@/components/PageContainer'
 import Header from '/@/components/Header'
-import { useRoomStore } from '/@/hooks/useRoomStore'
 import Input from '/@/components/Input'
 import Button from '/@/components/Button'
+import TitleImage from '/@/components/TitleImage'
+
+import people from '/@/assets/input.png'
 
 interface Props {
   onClose: () => void
@@ -54,56 +55,41 @@ const CreateGroupDialog = ({ onClose }: Props) => {
       >
         <div className="w-full h-full fixed top-0 left-0 overflow-auto bg-inherit">
           <PageContainer>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Header
-                title="複数の出費がある"
-                left={<MdArrowBackIosNew onClick={onClose} />}
-              />
-            </motion.div>
-            <div className='flex flex-col items-center'>
-              <motion.img
-                src={people}
-                alt=""
-                className='h-[200px]'
-                width="200"
-                height="200"
-              />
+            <Header
+              title="複数の出費がある"
+              left={<MdArrowBackIosNew onClick={onClose} />}
+            />
+            <div className='flex flex-col items-center p-5'>
+              <TitleImage src={people} title="グループを作成しましょう" />
               <motion.div
-                className='flex flex-col mt-4 px-5 pb-5 w-full gap-y-6'
+                className='flex flex-col mt-6 w-full gap-y-6'
                 initial={{ x: '120%', opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: '120%', opacity: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <p className='text-center text-sm font-semibold'>
-                  グループを作成しましょう
-                </p>
-                <div className='flex flex-col gap-y-6'>
-                  <div className="form-control w-full flex flex-col gap-y-3">
-                    <Input
-                      title="グループ名"
-                      type="text"
-                      value={groupName}
-                      onChange={(e) => setGroupName(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="form-control w-full flex flex-col gap-y-3">
-                    <Input
-                      title="あなたの名前"
-                      type="text"
-                      value={userName}
-                      onChange={(e) => setUserName(e.target.value)}
-                    />
-                  </div>
+                <div className="form-control w-full flex flex-col gap-y-3">
+                  <Input
+                    title="グループ名"
+                    type="text"
+                    value={groupName}
+                    onChange={(e) => setGroupName(e.target.value)}
+                  />
+                </div>
+                <div className="form-control w-full flex flex-col gap-y-3">
+                  <Input
+                    title="あなたの名前"
+                    type="text"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                  />
                 </div>
                 <div className='mt-10'>
-                  <Button text="作成する" onClick={submit} disabled={groupName === '' || userName === ''} />
+                  <Button
+                    text="作成する"
+                    onClick={submit}
+                    disabled={groupName === '' || userName === ''}
+                  />
                 </div>
               </motion.div>
             </div>
