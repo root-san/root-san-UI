@@ -1,22 +1,20 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MdAdd } from 'react-icons/md'
-import { AnimatePresence, motion } from 'framer-motion'
-import AnimateBody from '/@/components/AnimateBody'
 
 import { useRoomStore } from '/@/hooks/useRoomStore'
 import { useOncePayStore } from '/@/hooks/useOncePayStore'
 
 import Header from '/@/components/Header'
+import AnimateBody from '/@/components/AnimateBody'
 import PageContainer from '/@/components/PageContainer'
+import Tab from '/@/components/Tab'
 import Empty from './Empty'
 import GroupList from './GroupList'
 import OncePayList from './OncePayList'
 
 const Top = () => {
   const { data: rooms } = useRoomStore()
-  const { data } = useOncePayStore()
-  const [isPaid, setIsPaid] = useState(false)
+  const { data: onceRooms } = useOncePayStore()
 
   return (
     <PageContainer>
@@ -30,62 +28,36 @@ const Top = () => {
       />
       <AnimateBody>
         <div className="p-5">
-          <div className='mb-5'>
-            <div className='flex font-semibold h-[42px]'>
-              <button
-                onClick={() => setIsPaid(false)}
-                className={`w-full ${
-                  !isPaid ? 'text-primary' : 'text-gray-600 font-normal'
-                }`}
-              >
-                利用中
-              </button>
-              <button
-                onClick={() => setIsPaid(true)}
-                className={`w-full ${
-                  isPaid ? 'text-primary' : 'text-gray-600 font-normal'
-                }`}
-              >
-                精算済み
-              </button>
-            </div>
-            <div
-              className={`w-3/6 h-0.5 bg-primary transition-transform duration-200 ${
-                isPaid ? 'translate-x-full' : ''
-              }`}
-            />
-          </div>
-          <AnimatePresence initial={false} mode="popLayout">
-            {!isPaid ? (
-              <motion.div
-                initial={{ x: '-100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '-100%' }}
-                key="expence"
-                className="space-y-3"
-              >
-                {(rooms ?? []).length === 0 && (data ?? []).length === 0 && (
+          <Tab
+            right={
+              <>
+                {(rooms ?? []).length === 0 &&
+                (onceRooms ?? []).length === 0 ? (
                   <Empty />
+                ) : (
+                  <>
+                    <GroupList rooms={rooms ?? []} isPaid={false} />
+                    <OncePayList oncePays={onceRooms ?? []} isPaid={false} />
+                  </>
                 )}
-                <GroupList rooms={rooms ?? []} isPaid={isPaid} />
-                <OncePayList oncePays={data ?? []} isPaid={isPaid} />
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                key="calculat"
-                className="space-y-3"
-              >
-                {(rooms ?? []).length === 0 && (data ?? []).length === 0 && (
+              </>
+            }
+            rightName="精算済み"
+            left={
+              <>
+                {(rooms ?? []).length === 0 &&
+                (onceRooms ?? []).length === 0 ? (
                   <Empty />
+                ) : (
+                  <>
+                    <GroupList rooms={rooms ?? []} isPaid={true} />
+                    <OncePayList oncePays={onceRooms ?? []} isPaid={true} />
+                  </>
                 )}
-                <GroupList rooms={rooms ?? []} isPaid={isPaid} />
-                <OncePayList oncePays={data ?? []} isPaid={isPaid} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </>
+            }
+            leftName="利用中"
+          />
         </div>
       </AnimateBody>
     </PageContainer>
