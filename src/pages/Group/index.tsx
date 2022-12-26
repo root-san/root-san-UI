@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react'
+import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 
 import { MdArrowBackIosNew, MdMoreVert } from 'react-icons/md'
@@ -6,7 +6,6 @@ import { MdArrowBackIosNew, MdMoreVert } from 'react-icons/md'
 import Header from '/@/components/Header'
 import PageContainer from '/@/components/PageContainer'
 import Modal from '/@/components/Modal'
-import Input from '/@/components/Input'
 import Button from '/@/components/Button'
 import AnimateBody from '/@/components/AnimateBody'
 import CopyModal from './CopyModal'
@@ -18,6 +17,7 @@ import Menu from './Menu'
 import { useRoomStore } from '/@/hooks/useRoomStore'
 import { useRoom } from '/@/hooks/useRoom'
 import apis from '/@/libs/apis'
+import EditModal from './EditModal'
 
 const Group = () => {
   const { roomId } = useParams()
@@ -25,13 +25,11 @@ const Group = () => {
   const { getUserIdByRoomId, removeRoom } = useRoomStore()
 
   const [isShowMenu, setIsShowMenu] = useState(false)
-
-  const [name, setName] = useState<string>('')
   const [dialog, setDialog] = useState<'Edit' | 'Invite' | 'Remove' | null>(
     null
   )
 
-  const { room, mutate } = useRoom(roomId)
+  const { room } = useRoom(roomId)
 
   const handleMenuClose = () => {
     setIsShowMenu(false)
@@ -39,42 +37,11 @@ const Group = () => {
   const handleMenuClick = (type: 'Edit' | 'Invite' | 'Remove') => {
     setDialog(type)
     setIsShowMenu(false)
-    setName(room?.name || '')
   }
   const onCloseModal = () => {
     setDialog(null)
   }
 
-  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
-
-  const handleChangeName = async () => {
-    if (roomId === undefined) {
-      onCloseModal()
-      return
-    }
-    try {
-      await apis.editRoom({ roomId: roomId, roomRuquestBody: { name: name } })
-      await mutate()
-      onCloseModal()
-    } catch (e) {
-      console.error(e)
-    }
-  }
-  const handleDeleteRoom = async () => {
-    if (roomId === undefined) {
-      onCloseModal()
-      return
-    }
-    try {
-      await apis.deleteRoom({ roomId: roomId })
-      await removeRoom(roomId)
-      navigate('/')
-    } catch (e) {
-      console.error(e)
-    }
-  }
   const handleRemoveMember = () => {
     if (roomId === undefined) {
       onCloseModal()
@@ -141,22 +108,16 @@ const Group = () => {
             />
           </div>
         </AnimateBody>
-        <Modal title="編集" onClose={onCloseModal} open={dialog === 'Edit'}>
-          <div className="mt-6 h-[calc(85lvh-122px)]">
-            <Input
-              type="text"
-              value={name}
-              onChange={onChangeName}
-              className="bg-gray-50"
-            />
-            <div className="flex gap-[17px] mt-9 mb-12">
-              <Button onClick={onCloseModal} text="キャンセル" white />
-              <Button onClick={handleChangeName} text="変更する" />
-            </div>
-            <Button onClick={handleDeleteRoom} text="グループを削除" warn />
-          </div>
-        </Modal>
-        <CopyModal onClose={onCloseModal} open={dialog === 'Invite'} />
+        <EditModal
+          room={room}
+          open={dialog === 'Edit'}
+          onClose={onCloseModal}
+        />
+        <CopyModal
+          onClose={onCloseModal}
+          open={dialog === 'Invite'}
+          roomId={roomId}
+        />
         <Modal onClose={onCloseModal} open={dialog === 'Remove'}>
           <div>
             <p className="font-bold text-lg text-center">
