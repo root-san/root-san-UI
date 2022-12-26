@@ -21,19 +21,15 @@ const EditModal = ({ onClose, open, room }: Props) => {
   const { mutate } = useRoom(room?.id)
   const navigate = useNavigate()
 
-  const onCloseModal = () => {
-    onClose()
-  }
-
   const handleChangeName = async () => {
     if (room?.id === undefined) {
-      onCloseModal()
+      onClose()
       return
     }
     try {
       await apis.editRoom({ roomId: room.id, roomRuquestBody: { name: name } })
       await mutate()
-      onCloseModal()
+      onClose()
     } catch (e) {
       console.error(e)
     }
@@ -41,7 +37,7 @@ const EditModal = ({ onClose, open, room }: Props) => {
 
   const handleDeleteRoom = async () => {
     if (room?.id === undefined) {
-      onCloseModal()
+      onClose()
       return
     }
     try {
@@ -54,7 +50,7 @@ const EditModal = ({ onClose, open, room }: Props) => {
   }
 
   return (
-    <Modal title="編集" onClose={onCloseModal} open={open}>
+    <Modal title="編集" onClose={onClose} open={open}>
       <div className="mt-6 h-[calc(85lvh-122px)]">
         <Input
           type="text"
@@ -65,7 +61,7 @@ const EditModal = ({ onClose, open, room }: Props) => {
           className="bg-gray-50"
         />
         <div className="flex gap-[17px] mt-9 mb-12">
-          <Button onClick={onCloseModal} text="キャンセル" white />
+          <Button onClick={onClose} text="キャンセル" white />
           <Button onClick={handleChangeName} text="変更する" />
         </div>
         <Button onClick={handleDeleteRoom} text="グループを削除" warn />
