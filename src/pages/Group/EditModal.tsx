@@ -12,20 +12,16 @@ import { useRoom } from '/@/hooks/useRoom'
 interface Props {
   onClose: () => void
   open: boolean
-  room: RoomDetails | undefined
+  room: RoomDetails
 }
 
 const EditModal = ({ onClose, open, room }: Props) => {
-  const [name, setName] = useState(room?.name ?? '')
+  const [name, setName] = useState(room.name ?? '')
   const { removeRoom } = useRoomStore()
-  const { mutate } = useRoom(room?.id)
+  const { mutate } = useRoom(room.id)
   const navigate = useNavigate()
 
   const handleChangeName = async () => {
-    if (room?.id === undefined) {
-      onClose()
-      return
-    }
     try {
       await apis.editRoom({ roomId: room.id, roomRuquestBody: { name: name } })
       await mutate()

@@ -33,7 +33,7 @@ const RemoveModal = ({ open, onClose, roomId }: Props) => {
 
   return (
     <Modal onClose={onClose} open={open}>
-      <div>
+      <>
         <p className="font-bold text-lg text-center">
           グループから抜けますか？
         </p>
@@ -41,7 +41,7 @@ const RemoveModal = ({ open, onClose, roomId }: Props) => {
           <Button onClick={handleRemoveMember} text="抜ける" warn />
           <Button onClick={onClose} text="キャンセル" white />
         </div>
-      </div>
+      </>
     </Modal>
   )
 }

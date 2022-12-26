@@ -37,7 +37,7 @@ const Group = () => {
     setDialog(null)
   }
 
-  if (!roomId) {
+  if (roomId === undefined || room === undefined) {
     // TODO: 404
     return <div>Room ID is not found</div>
   }
@@ -46,7 +46,7 @@ const Group = () => {
     <>
       <PageContainer>
         <Header
-          title={room?.name ?? ''}
+          title={room.name ?? ''}
           left={
             <Link to="/" className='text-2xl'>
               <MdArrowBackIosNew />
