@@ -49,8 +49,13 @@ const GroupEventEdit = () => {
     setAmount(`${event.amount}`)
     setEventAt(toDateFormat(new Date(event.eventAt)))
 
-    const nowMemberAmount = Object.fromEntries(event.txns.map(txn => [txn.receiver, `${txn.amount}`]))
-    room.members.forEach(member => nowMemberAmount[member.id] = nowMemberAmount[member.id] ?? '0')
+    const nowMemberAmount = Object.fromEntries(
+      event.txns.map((txn) => [txn.receiver, `${txn.amount}`])
+    )
+    room.members.forEach(
+      (member) =>
+        (nowMemberAmount[member.id] = nowMemberAmount[member.id] ?? '0')
+    )
     setMemberAmount(nowMemberAmount)
 
     if (event.txns.length > 0) {
@@ -112,7 +117,9 @@ const GroupEventEdit = () => {
         },
       })
       const newRoom = { ...room }
-      newRoom.events = newRoom.events.map(event => event.id === eventId ? res : event)
+      newRoom.events = newRoom.events.map((event) =>
+        event.id === eventId ? res : event
+      )
       await mutate(newRoom)
 
       navigate(`/group/${roomId}`)
@@ -167,48 +174,40 @@ const GroupEventEdit = () => {
           }
         />
         <AnimateBody>
-          <div className="flex flex-col items-center p-5 gap-6">
-            <div className="form-control w-full flex flex-col gap-y-3">
-              <Input
-                title="項目名"
-                type="text"
-                value={name}
-                onChange={(e) => {
-                  setIsEdit(true)
-                  setName(e.target.value)
-                }}
-              />
-            </div>
-            <div className="form-control w-full flex flex-col gap-y-3">
-              <Input
-                title="金額"
-                type="number"
-                value={amount}
-                onChange={onChangeAmount}
-              />
-            </div>
-            <div className="form-control w-full flex flex-col gap-y-3">
-              <Input
-                title="支払った日"
-                type="date"
-                value={eventAt}
-                onChange={(e) => {
-                  setIsEdit(true)
-                  setEventAt(e.target.value)
-                }}
-              />
-            </div>
-            <div className="form-control w-full flex flex-col gap-y-3">
-              <Select
-                title="支払った人"
-                value={receiver}
-                options={room?.members ?? []}
-                onChange={(e) => {
-                  setIsEdit(true)
-                  setReceiver(e.target.value)
-                }}
-              />
-            </div>
+          <div className="p-5 space-y-6 w-full">
+            <Input
+              title="項目名"
+              type="text"
+              value={name}
+              onChange={(e) => {
+                setIsEdit(true)
+                setName(e.target.value)
+              }}
+            />
+            <Input
+              title="金額"
+              type="number"
+              value={amount}
+              onChange={onChangeAmount}
+            />
+            <Input
+              title="支払った日"
+              type="date"
+              value={eventAt}
+              onChange={(e) => {
+                setIsEdit(true)
+                setEventAt(e.target.value)
+              }}
+            />
+            <Select
+              title="支払った人"
+              value={receiver}
+              options={room?.members ?? []}
+              onChange={(e) => {
+                setIsEdit(true)
+                setReceiver(e.target.value)
+              }}
+            />
             <div className="flex flex-col items-start w-full gap-4">
               <div className="flex flex-row w-full gap-4">
                 <div className="flex flex-row flex-1 gap-2 items-center">

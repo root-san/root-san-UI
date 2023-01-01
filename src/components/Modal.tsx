@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react'
 import { MdOutlineClose } from 'react-icons/md'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import ModalPortal from '/@/components/ModalPortal'
 
@@ -30,29 +30,31 @@ const Modal = ({ children, open, title, onClose }: ModalProps) => {
 
   return (
     <ModalPortal>
-      {open && (
-        <motion.div
-          className="w-full h-full fixed top-0 left-0 z-50"
-          onClick={handleOutSideClose}
-          initial={{ backdropFilter: 'brightness(100%)' }}
-          animate={{ backdropFilter: 'brightness(50%)' }}
-          transition={{ duration: 0.2 }}
-        >
+      <AnimatePresence initial={true}>
+        {open && (
           <motion.div
-            className="absolute inset-x-0 bottom-0 w-full max-w-3xl mx-auto bg-white p-6 rounded-t-[32px]"
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
+            className="w-full h-full fixed top-0 left-0 z-50"
+            onClick={handleOutSideClose}
+            initial={{ backdropFilter: 'brightness(100%)' }}
+            animate={{ backdropFilter: 'brightness(50%)' }}
+            transition={{ duration: 0.2 }}
           >
-            <div className="grid grid-cols-[1fr_24px]">
-              <p className='text-center font-bold text-lg'>{title ?? ''}</p>
-              <button onClick={handleClose}>
-                <MdOutlineClose className='text-2xl' />
-              </button>
-            </div>
-            <div>{children}</div>
+            <motion.div
+              className="absolute inset-x-0 bottom-0 w-full max-w-3xl mx-auto bg-white p-6 rounded-t-[32px]"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+            >
+              <div className="grid grid-cols-[1fr_24px]">
+                <p className='text-center font-bold text-lg'>{title ?? ''}</p>
+                <button onClick={handleClose}>
+                  <MdOutlineClose className='text-2xl' />
+                </button>
+              </div>
+              <div>{children}</div>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
+      </AnimatePresence>
     </ModalPortal>
   )
 }
